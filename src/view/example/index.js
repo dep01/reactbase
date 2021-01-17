@@ -5,6 +5,8 @@ import * as store from './store';
 import {view} from 'react-easy-state';
 import {baseColor} from '../../utils/constants';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+
 export default view(({navigation}) => {
   useEffect(() => {
     navigation.setOptions({
@@ -44,6 +46,11 @@ export default view(({navigation}) => {
         <Text style={styles.textButtonAllow}>
           {store.state.isMinus ? 'Disable Minus' : 'Enable Minus'}
         </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => store.testLoading()}
+        style={styles.buttonAllowed}>
+        <Text style={styles.textButtonAllow}>Loading Overlay</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import {store} from 'react-easy-state';
 import {Alert} from 'react-native';
+import globalStore from '../../data/global';
 export const testString = 'hallo';
 export const intTest = 99;
 
@@ -16,13 +17,16 @@ export const gotoBlank = ({navigation}) => {
 
 export const plus = () => {
   state.count++;
+  globalStore.toast?.current.show(state.count);
 };
 export const min = () => {
   if (state.count > 0) {
     state.count--;
+    globalStore.toast?.current.show(state.count);
   } else {
     if (state.isMinus) {
       state.count--;
+      globalStore.toast?.current.show(state.count);
     } else {
       Alert.alert('Warning', 'Value is 0', [
         {
@@ -42,3 +46,9 @@ export const allowMinus = () => {
     state.isMinus = !state.isMinus;
   }
 };
+export const testLoading = () => {
+  globalStore.setLoading(true);
+  setTimeout(() => {
+    globalStore.setLoading(false);
+  }, 1850);
+}
