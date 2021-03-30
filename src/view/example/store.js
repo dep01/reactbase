@@ -1,32 +1,38 @@
-import React from 'react';
 import {store} from 'react-easy-state';
 import {Alert} from 'react-native';
-import globalStore from '../../data/global';
-export const testString = 'hallo';
-export const intTest = 99;
+import {global_state} from '../../utils/global_store';
 
 export const state = store({
   loading: true,
   count: 0,
   isMinus: false,
 });
-
-export const gotoBlank = ({navigation}) => {
+export async function initialized() {
+  global_state.setLoading(true);
+  setTimeout(() => {
+    global_state.setLoading(false);
+  }, 1500);
+}
+export function cleanUp() {
+  state.loading = false;
+  state.count = 0;
+  state.isMinus = false;
+}
+export function NavigateBlank({navigation}) {
   navigation.navigate('/blank');
-};
-
-export const plus = () => {
+}
+export function PlusAction() {
   state.count++;
-  globalStore.toast?.current.show(state.count);
-};
-export const min = () => {
+  global_state.toast?.current.show(state.count);
+}
+export function MinAction() {
   if (state.count > 0) {
     state.count--;
-    globalStore.toast?.current.show(state.count);
+    global_state.toast?.current.show(state.count);
   } else {
     if (state.isMinus) {
       state.count--;
-      globalStore.toast?.current.show(state.count);
+      global_state.toast?.current.show(state.count);
     } else {
       Alert.alert('Warning', 'Value is 0', [
         {
@@ -37,18 +43,18 @@ export const min = () => {
       ]);
     }
   }
-};
-export const allowMinus = () => {
+}
+export function AllowMinus() {
   if (state.count < 0) {
     state.isMinus = !state.isMinus;
     state.count = 0;
   } else {
     state.isMinus = !state.isMinus;
   }
-};
-export const testLoading = () => {
-  globalStore.setLoading(true);
+}
+export function TestLoading() {
+  global_state.setLoading(true);
   setTimeout(() => {
-    globalStore.setLoading(false);
+    global_state.setLoading(false);
   }, 1850);
 }

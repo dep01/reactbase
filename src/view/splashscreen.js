@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, View, StyleSheet} from 'react-native';
-import {icon, baseColor} from '../utils/constants';
+import {sys_icons, sys_colors} from '../utils/constants';
 
 export default ({navigation}) => {
   const timer = async () => {
@@ -16,10 +16,14 @@ export default ({navigation}) => {
   }, [timer]);
   return (
     <View style={styles.container}>
-      <Image resizeMode="contain" source={icon.ic_react} style={styles.image} />
+      <Image
+        resizeMode="contain"
+        source={sys_icons.ic_react}
+        style={styles.image}
+      />
       <ActivityIndicator
         size={32}
-        color={baseColor.body}
+        color={sys_colors.primary}
         style={styles.loading}
       />
     </View>
@@ -28,7 +32,7 @@ export default ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: baseColor.body,
+    backgroundColor: sys_colors.primary,
     flexDirection: 'column',
     justifyContent: 'center',
     flex: 1,

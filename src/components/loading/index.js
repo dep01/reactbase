@@ -1,23 +1,23 @@
 import React from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
-import globalStore from '../../data/global';
-import { view } from '@risingstack/react-easy-state';
+import {View, ActivityIndicator, Text} from 'react-native';
+import globalStore from '../../utils/global';
+import {view} from '@risingstack/react-easy-state';
 import styles from './style';
-import { baseColor } from '../../utils/constants';
+import {sys_colors} from '../../utils/constants';
 
 const LoadingIndicator = () => {
-    if(globalStore.isLoading) {
-        return(
-            <View style={styles.loading}>
-                <View style={styles.container}>
-                    <ActivityIndicator size='large' color={baseColor.text}/>
-                    <Text style={styles.textLoading}>Loading ...</Text>
-                </View>
-            </View>
-        );
-    }else {
-        return(<View></View>);
-    }
-}
+  if (globalStore.isLoading) {
+    return (
+      <View style={styles.loading}>
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color={sys_colors.text.white} />
+          <Text style={styles.textLoading}>Loading ...</Text>
+        </View>
+      </View>
+    );
+  } else {
+    return <View></View>;
+  }
+};
 
-export default view(LoadingIndicator) 
+export default view(LoadingIndicator);
