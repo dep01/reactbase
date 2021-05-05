@@ -9,9 +9,21 @@ const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="/splash">
-        <Stack.Screen name="/splash" component={splash} />
-        <Stack.Screen name="/example" component={example} />
-        <Stack.Screen name="/blank" component={blank} />
+        <Stack.Screen
+          name="/splash"
+          component={splash}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="/example"
+          component={example}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="/blank"
+          component={blank}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

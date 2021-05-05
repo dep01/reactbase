@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, ActivityIndicator, Text} from 'react-native';
-import globalStore from '../../utils/global';
+import * as globalStore from '../../utils/global_store';
 import {view} from '@risingstack/react-easy-state';
 import styles from './style';
 import {sys_colors} from '../../utils/constants';
 
 const LoadingIndicator = () => {
-  if (globalStore.isLoading) {
+  if (globalStore.global_state.isLoading) {
     return (
       <View style={styles.loading}>
         <View style={styles.container}>

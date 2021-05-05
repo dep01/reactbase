@@ -6,10 +6,10 @@ export const global_state = store({
   netInfo: false,
   toast: null,
   setLoading(val) {
-    globalStore.isLoading = val;
+    global_state.isLoading = val;
   },
   setToastRef(ref) {
-    globalStore.toast = ref;
+    global_state.toast = ref;
   },
 });
 
