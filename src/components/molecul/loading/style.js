@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {sys_colors} from '../../utils/constants';
+import {sys_colors} from '../../../utils/constants';
 
 export default StyleSheet.create({
   loading: {
@@ -14,13 +14,13 @@ export default StyleSheet.create({
   },
   container: {
     padding: 35,
-    backgroundColor: sys_colors.primary,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
   },
   textLoading: {
-    color: sys_colors.text.white,
+    color: sys_colors.text.black,
     marginTop: 5,
     fontSize: 14,
     fontWeight: 'bold',

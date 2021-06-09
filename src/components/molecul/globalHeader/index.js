@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {sys_colors} from '../../utils/constants';
+import {sys_colors} from '../../../utils/constants';
 export const GlobalHeader = ({
   children,
   title = '',

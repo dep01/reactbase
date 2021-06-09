@@ -23,6 +23,7 @@ export function SysDateTransform({
   date = '',
   type = 'long',
   checkIsToDay = false,
+  lang = 'en',
 }) {
   const current = new Date();
   const dateFormat = new Date(date);
@@ -39,15 +40,16 @@ export function SysDateTransform({
     ) {
       fullOfdate = hour + ':' + minutes;
     } else {
-      fullOfdate = day + ' ' + SysMonthTransform(month, type) + ' ' + year;
+      fullOfdate =
+        day + ' ' + SysMonthTransform(month, type, lang) + ' ' + year;
     }
   } else {
-    fullOfdate = day + ' ' + SysMonthTransform(month, type) + ' ' + year;
+    fullOfdate = day + ' ' + SysMonthTransform(month, type, lang) + ' ' + year;
   }
   return fullOfdate;
 }
-export function SysMonthTransform(val, type = 'long') {
-  const longMonth = [
+export function SysMonthTransform(val, type = 'long', lang = 'en') {
+  var longMonth = [
     'January',
     'February',
     'March',
@@ -61,7 +63,7 @@ export function SysMonthTransform(val, type = 'long') {
     'November',
     'December',
   ];
-  const shortMonth = [
+  var shortMonth = [
     'Jan',
     'Feb',
     'Mar',
@@ -75,6 +77,36 @@ export function SysMonthTransform(val, type = 'long') {
     'Nov',
     'Dec',
   ];
+  if (lang == 'in') {
+    longMonth = [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'July',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    shortMonth = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'Mei',
+      'Jun',
+      'Jul',
+      'Agu',
+      'Sep',
+      'Okt',
+      'Nov',
+      'Des',
+    ];
+  }
   if (type == 'long') {
     return longMonth[val];
   } else {

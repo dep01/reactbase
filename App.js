@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import Routes from './src/routes';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Toast from "react-native-fast-toast";
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Toast from 'react-native-fast-toast';
 import * as globalStore from './src/utils/global_store';
-import LoadingIndicator from './src/components/loading';
-
+import {LoadingOverlay} from './src/components';
 
 const App = () => {
   const toastRef = useRef(null);
@@ -13,11 +12,11 @@ const App = () => {
     globalStore.global_state.setToastRef(toastRef);
   }, [globalStore]);
 
-  return(
+  return (
     <SafeAreaProvider>
-      <Routes/>
+      <Routes />
       <Toast ref={toastRef} />
-      <LoadingIndicator />
+      <LoadingOverlay />
     </SafeAreaProvider>
   );
 };
