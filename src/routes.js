@@ -1,27 +1,26 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import splash from './view/splashscreen';
-import example from './view/example';
-import blank from './view/blank';
+import {BlankScreen, ExampleScreen, SplashScreen} from './view';
+
 const Stack = createStackNavigator();
 const Routes = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="/splash">
+      <Stack.Navigator initialRouteName="splash">
         <Stack.Screen
-          name="/splash"
-          component={splash}
+          name="splash"
+          component={SplashScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="/example"
-          component={example}
+          name="example"
+          component={ExampleScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="/blank"
-          component={blank}
+          name="blank"
+          component={BlankScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

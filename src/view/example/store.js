@@ -19,7 +19,7 @@ export function cleanUp() {
   state.isMinus = false;
 }
 export function NavigateBlank({navigation}) {
-  navigation.navigate('/blank');
+  navigation.navigate('blank');
 }
 export function PlusAction() {
   state.count++;

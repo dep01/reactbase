@@ -5,7 +5,7 @@ import {sys_icons, sys_colors} from '../utils/constants';
 export default ({navigation}) => {
   const timer = async () => {
     setTimeout(() => {
-      navigation.replace('/example');
+      navigation.replace('example');
     }, 2000);
   };
   useEffect(() => {
