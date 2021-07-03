@@ -16,7 +16,7 @@ const LoadingOverlay = () => {
       </View>
     );
   } else {
-    return <View></View>;
+    return null;
   }
 };
 
