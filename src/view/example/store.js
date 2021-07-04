@@ -2,6 +2,30 @@ import {store} from 'react-easy-state';
 import {Alert} from 'react-native';
 import {global_state} from '../../utils/global_store';
 
+const Convert = require('../../model/productModel');
+const dummies = [
+  {
+    id: '1',
+    code: 'I289231',
+    name: 'Desain 2',
+    price: [
+      {
+        location: '1',
+        price: 400,
+      },
+      {
+        location: '2',
+        price: 666,
+      },
+    ],
+  },
+  {
+    id: '2',
+    code: 'I289231',
+    name: 'hahah',
+    price: null,
+  },
+];
 export const state = store({
   loading: true,
   count: 0,
@@ -9,6 +33,8 @@ export const state = store({
 });
 export async function initialized() {
   global_state.setLoading(true);
+  const x = Convert.listOfProductModel(dummies);
+  console.log(x[1].price);
   setTimeout(() => {
     global_state.setLoading(false);
   }, 1500);
