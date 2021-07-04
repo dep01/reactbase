@@ -1,5 +1,6 @@
 import {store} from 'react-easy-state';
 import {Alert} from 'react-native';
+import {genmodel} from '../../../genmodel';
 import {global_state} from '../../utils/global_store';
 
 const Convert = require('../../model/productModel');
@@ -26,6 +27,20 @@ const dummies = [
     price: null,
   },
 ];
+const dummi = [
+  {
+    kelas: 2,
+    nama: 'mulyadi',
+    delete: true,
+    ortu: [
+      {
+        nama: 'anu',
+        kandung: true,
+        suamu: {ada: true, rumah: [{alamat: 'jasvhcasnc '}]},
+      },
+    ],
+  },
+];
 export const state = store({
   loading: true,
   count: 0,
@@ -34,6 +49,7 @@ export const state = store({
 export async function initialized() {
   global_state.setLoading(true);
   const x = Convert.listOfProductModel(dummies);
+  genmodel(dummi, 'Kelas');
   console.log(x[1].price);
   setTimeout(() => {
     global_state.setLoading(false);
