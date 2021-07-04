@@ -1,15 +1,60 @@
-const modelOfdataProduct = {
+// HOW TO IMPORT ?
+// const Convert = require('location/ProductModel.js');
+// HOW TO USE?
+// FOR OBJECT
+// const data = Convert.objectOfProductModel(data)
+// FOR ARRAY
+// const data = Convert.listOfProductModel(data)
+const modelOfDataProductModel = {
   id: '',
   code: '',
   name: '',
-  price: [modelOfDataPrice],
+  price: [modelOfDataprice],
 };
-const modelOfDataPrice = {
+function listOfProductModel(data = []) {
+  var listData = [modelOfDataProductModel];
+  listData = [];
+  try {
+    data.map((val) => {
+      var object = {
+        id: val.id ?? null,
+        code: val.code ?? null,
+        name: val.name ?? null,
+        price: listOfprice(val.price ?? []),
+      };
+      listData.push(object);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return listData;
+}
+function objectOfProductModel(data = null) {
+  var objectData = modelOfDataProductModel;
+  if (data == null) {
+    return null;
+  }
+  try {
+    objectData.id = data.id ?? null;
+    objectData.code = data.code ?? null;
+    objectData.name = data.name ?? null;
+    objectData.price = listOfprice(data.price ?? []);
+  } catch (error) {
+    console.log(error);
+  }
+  return objectData;
+}
+module.exports = {
+  listOfProductModel: listOfProductModel,
+  objectOfProductModel: objectOfProductModel,
+};
+
+const modelOfDataprice = {
   location: '',
-  price: 0,
+  price: null,
 };
-function listOfPriceModel(data = []) {
-  var listData = [modelOfDataPrice];
+function listOfprice(data = []) {
+  var listData = [modelOfDataprice];
   listData = [];
   try {
     data.map((val) => {
@@ -24,37 +69,3 @@ function listOfPriceModel(data = []) {
   }
   return listData;
 }
-function listOfProductModel(data = []) {
-  var listData = [modelOfdataProduct];
-  listData = [];
-  try {
-    data.map((val) => {
-      var object = {
-        id: val.id ?? null,
-        code: val.code ?? null,
-        name: val.name ?? null,
-        price: listOfPriceModel(val.price ?? []),
-      };
-      listData.push(object);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  return listData;
-}
-function objectOfProductModel(data = null) {
-  var objectData = modelOfdataProduct;
-  try {
-    objectData.id = data.id ?? null;
-    objectData.name = data.name ?? null;
-    objectData.code = data.code ?? null;
-    objectData.price = listOfPriceModel(data.price ?? []);
-  } catch (error) {
-    console.log(error);
-  }
-  return objectData;
-}
-module.exports = {
-  listOfProductModel: listOfProductModel,
-  objectOfProductModel: objectOfProductModel,
-};

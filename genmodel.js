@@ -13,18 +13,22 @@ export function genmodel(data, name) {
   Object.keys(object).map((key, index) => {
     const x = {
       name: key,
-      type: typeof object[key],
+      type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
     };
-    if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-      genmodelChildOne(object[key], key);
+    if (object[key] != null) {
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
+        genmodelChildOne(object[key], key);
+      }
     }
     listKey.push(x);
   });
   var forObject = '';
   listKey.map((val) => {
     var str = '';
-    if (Array.isArray(val.data)) {
+    if (val.data == null) {
+      str = `\tobjectData.${val.name} = data.${val.name}??null;\n`;
+    } else if (Array.isArray(val.data)) {
       str = `\tobjectData.${val.name} = listOf${val.name}(data.${val.name}??[]);\n`;
     } else if (typeof val.data == 'object') {
       str = `\tobjectData.${val.name} = objectOf${val.name}(data.${val.name}??[]);\n`;
@@ -46,11 +50,13 @@ export function genmodel(data, name) {
     const dataType =
       val.type == 'string'
         ? "''"
+        : val.type == 'null'
+        ? null
         : val.type == 'boolean'
         ? false
         : val.type == 'number'
         ? 0
-        : Array.isArray(val.type)
+        : Array.isArray(val.data)
         ? `[modelOfData${val.name}]`
         : `modelOfData${val.name}`;
     return `\n\t${val.name}:${dataType}`;
@@ -63,7 +69,9 @@ export function genmodel(data, name) {
         data.map((val) => {
           var object = {${listKey.map((val) => {
             var str = '';
-            if (Array.isArray(val.data)) {
+            if (val.data == null) {
+              str = `\n\t\t${val.name}:val.${val.name}??null`;
+            } else if (Array.isArray(val.data)) {
               str = `\n\t\t${val.name}:listOf${val.name}(val.${val.name}??[])`;
             } else if (typeof val.data == 'object') {
               str = `\n\t\t${val.name}:objectOf${val.name}(val.${val.name}??null)`;
@@ -82,7 +90,9 @@ export function genmodel(data, name) {
   }
   function objectOf${name}(data = null){
     var objectData = modelOfData${name};
-    objectData = null;
+    if (data == null) {
+    return null;
+  };
     try {
        ${forObject}
       } catch (error) {
@@ -112,21 +122,25 @@ function genmodelChildOne(data, name) {
   Object.keys(object).map((key, index) => {
     const x = {
       name: key,
-      type: typeof object[key],
+      type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
     };
-    if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-      genmodelChildTwo(object[key], key);
+    if (object[key] != null) {
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
+        genmodelChildTwo(object[key], key);
+      }
     }
     listKey.push(x);
   });
   var forObject = '';
   listKey.map((val) => {
     var str = '';
-    if (Array.isArray(val.data)) {
+    if (val.data == null) {
+      str = `\tobjectData.${val.name} = data.${val.name}??null;\n`;
+    } else if (Array.isArray(val.data)) {
       str = `\tobjectData.${val.name} = listOf${val.name}(data.${val.name}??[]);\n`;
     } else if (typeof val.data == 'object') {
-      str = `\tobjectData.${val.name} = objectOf${val.name}(data.${val.name}??[]);\n`;
+      str = `\tobjectData.${val.name} = objectOf${val.name}(data.${val.name}??null);\n`;
     } else {
       str = `\tobjectData.${val.name} = data.${val.name}??null;\n`;
     }
@@ -140,9 +154,11 @@ function genmodelChildOne(data, name) {
           ? "''"
           : val.type == 'boolean'
           ? false
+          : val.type == 'null'
+          ? null
           : val.type == 'number'
           ? 0
-          : Array.isArray(val.type)
+          : Array.isArray(val.data)
           ? `[modelOfData${val.name}]`
           : `modelOfData${val.name}`;
       return `\n\t${val.name}:${dataType}`;
@@ -157,7 +173,9 @@ function genmodelChildOne(data, name) {
                 data.map((val) => {
                   var object = {${listKey.map((val) => {
                     var str = '';
-                    if (Array.isArray(val.data)) {
+                    if (val.data == null) {
+                      str = `\n\t\t${val.name}:val.${val.name}??null`;
+                    } else if (Array.isArray(val.data)) {
                       str = `\n\t\t${val.name}:listOf${val.name}(val.${val.name}??[])`;
                     } else if (typeof val.data == 'object') {
                       str = `\n\t\t${val.name}:objectOf${val.name}(val.${val.name}??null)`;
@@ -177,7 +195,9 @@ function genmodelChildOne(data, name) {
   } else {
     childOne += `\n\tfunction objectOf${name}(data = null){
             var objectData = modelOfData${name};
-            objectData = null;
+            if (data == null) {
+    return null;
+  };
             try {
                ${forObject}
               } catch (error) {
@@ -200,18 +220,22 @@ function genmodelChildTwo(data, name) {
   Object.keys(object).map((key, index) => {
     const x = {
       name: key,
-      type: typeof object[key],
+      type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
     };
-    if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-      genmodelChildThree(object[key], key);
+    if (object[key] != null) {
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
+        genmodelChildThree(object[key], key);
+      }
     }
     listKey.push(x);
   });
   var forObject = '';
   listKey.map((val) => {
     var str = '';
-    if (Array.isArray(val.data)) {
+    if (val.data == null) {
+      str = `\tobjectData.${val.name} = data.${val.name}??null;\n`;
+    } else if (Array.isArray(val.data)) {
       str = `\tobjectData.${val.name} = listOf${val.name}(data.${val.name}??[]);\n`;
     } else if (typeof val.data == 'object') {
       str = `\tobjectData.${val.name} = objectOf${val.name}(data.${val.name}??[]);\n`;
@@ -226,11 +250,13 @@ function genmodelChildTwo(data, name) {
       const dataType =
         val.type == 'string'
           ? "''"
+          : val.type == 'null'
+          ? null
           : val.type == 'boolean'
           ? false
           : val.type == 'number'
           ? 0
-          : Array.isArray(val.type)
+          : Array.isArray(val.data)
           ? `[modelOfData${val.name}]`
           : `modelOfData${val.name}`;
       return `\n\t${val.name}:${dataType}`;
@@ -245,7 +271,9 @@ function genmodelChildTwo(data, name) {
                 data.map((val) => {
                   var object = {${listKey.map((val) => {
                     var str = '';
-                    if (Array.isArray(val.data)) {
+                    if (val.data == null) {
+                      str = `\n\t\t${val.name}:val.${val.name}??null`;
+                    } else if (Array.isArray(val.data)) {
                       str = `\n\t\t${val.name}:listOf${val.name}(val.${val.name}??[])`;
                     } else if (typeof val.data == 'object') {
                       str = `\n\t\t${val.name}:objectOf${val.name}(val.${val.name}??null)`;
@@ -265,7 +293,9 @@ function genmodelChildTwo(data, name) {
   } else {
     childTwo += `\n\tfunction objectOf${name}(data = null){
             var objectData = modelOfData${name};
-            objectData = null;
+            if (data == null) {
+    return null;
+  };
             try {
                ${forObject}
               } catch (error) {
@@ -287,18 +317,23 @@ function genmodelChildThree(data, name) {
   Object.keys(object).map((key, index) => {
     const x = {
       name: key,
-      type: typeof object[key],
+      type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
     };
-    if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-      genmodelChildFour(object[key], key);
+    if (object[key] != null) {
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
+        genmodelChildFour(object[key], key);
+      }
     }
+
     listKey.push(x);
   });
   var forObject = '';
   listKey.map((val) => {
     var str = '';
-    if (Array.isArray(val.data)) {
+    if (val.data == null) {
+      str = `\tobjectData.${val.name} = data.${val.name}??null;\n`;
+    } else if (Array.isArray(val.data)) {
       str = `\tobjectData.${val.name} = listOf${val.name}(data.${val.name}??[]);\n`;
     } else if (typeof val.data == 'object') {
       str = `\tobjectData.${val.name} = objectOf${val.name}(data.${val.name}??[]);\n`;
@@ -313,11 +348,13 @@ function genmodelChildThree(data, name) {
       const dataType =
         val.type == 'string'
           ? "''"
+          : val.type == 'null'
+          ? null
           : val.type == 'boolean'
           ? false
           : val.type == 'number'
           ? 0
-          : Array.isArray(val.type)
+          : Array.isArray(val.data)
           ? `[modelOfData${val.name}]`
           : `modelOfData${val.name}`;
       return `\n\t${val.name}:${dataType}`;
@@ -332,7 +369,9 @@ function genmodelChildThree(data, name) {
                 data.map((val) => {
                   var object = {${listKey.map((val) => {
                     var str = '';
-                    if (Array.isArray(val.data)) {
+                    if (val.data == null) {
+                      str = `\n\t\t${val.name}:val.${val.name}??null`;
+                    } else if (Array.isArray(val.data)) {
                       str = `\n\t\t${val.name}:listOf${val.name}(val.${val.name}??[])`;
                     } else if (typeof val.data == 'object') {
                       str = `\n\t\t${val.name}:objectOf${val.name}(val.${val.name}??null)`;
@@ -352,7 +391,9 @@ function genmodelChildThree(data, name) {
   } else {
     childThree += `\n\tfunction objectOf${name}(data = null){
             var objectData = modelOfData${name};
-            objectData = null;
+            if (data == null) {
+    return null;
+  };
             try {
                ${forObject}
               } catch (error) {
@@ -374,7 +415,7 @@ function genmodelChildFour(data, name) {
   Object.keys(object).map((key, index) => {
     const x = {
       name: key,
-      type: typeof object[key],
+      type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
     };
     listKey.push(x);
@@ -385,12 +426,14 @@ function genmodelChildFour(data, name) {
 
     forObject += str;
   });
-  childOne += `
+  childFour += `
     const modelOfData${name} = 
     {${listKey.map((val) => {
       const dataType =
         val.type == 'string'
           ? "''"
+          : val.type == 'null'
+          ? null
           : val.type == 'boolean'
           ? false
           : val.type == 'number'
@@ -403,7 +446,7 @@ function genmodelChildFour(data, name) {
     }`;
 
   if (Array.isArray(data)) {
-    childOne += `\n\tfunction listOf${name}(data = []){
+    childFour += `\n\tfunction listOf${name}(data = []){
             var listData = [modelOfData${name}];
             listData =[];
             try {
@@ -422,9 +465,11 @@ function genmodelChildFour(data, name) {
               return listData;
           }`;
   } else {
-    childOne += `\n\tfunction objectOf${name}(data = null){
+    childFour += `\n\tfunction objectOf${name}(data = null){
             var objectData = modelOfData${name};
-            objectData = null;
+            if (data == null) {
+    return null;
+  };
             try {
                ${forObject}
               } catch (error) {

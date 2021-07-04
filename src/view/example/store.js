@@ -7,24 +7,14 @@ const Convert = require('../../model/productModel');
 const dummies = [
   {
     id: '1',
-    code: 'I289231',
+    code: null,
     name: 'Desain 2',
     price: [
       {
         location: '1',
-        price: 400,
-      },
-      {
-        location: '2',
-        price: 666,
+        price: null,
       },
     ],
-  },
-  {
-    id: '2',
-    code: 'I289231',
-    name: 'hahah',
-    price: null,
   },
 ];
 const dummi = [
@@ -49,8 +39,8 @@ export const state = store({
 export async function initialized() {
   global_state.setLoading(true);
   const x = Convert.listOfProductModel(dummies);
-  genmodel(dummi, 'Kelas');
-  console.log(x[1].price);
+  genmodel(dummies, 'ProductModel');
+  console.log(x[0].price[0].price);
   setTimeout(() => {
     global_state.setLoading(false);
   }, 1500);
