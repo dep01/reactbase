@@ -2,7 +2,20 @@ var childOne = '';
 var childTwo = '';
 var childThree = '';
 var childFour = '';
-export function genmodel(data, name) {
+function genmodel(fileJson, name) {
+  var data = null;
+  try {
+    data = require(`./src/data/${fileJson}`);
+  } catch (error) {
+    if (fileJson == '') {
+      return false;
+    } else {
+      console.log(
+        'error: please put your JSON on src/data or make sure your file is exists',
+      );
+    }
+    return false;
+  }
   var object = {};
   var listKey = [];
   if (!Array.isArray(data)) {
@@ -39,7 +52,9 @@ export function genmodel(data, name) {
   });
   console.log(`
 // HOW TO IMPORT ?
-// const Convert = require('location/${name}.js');
+// const Convert = require('location/${name}.js'); 
+// OR
+// import Convert from 'location/${name}.js'
 // HOW TO USE?
 // FOR OBJECT
 // const data = Convert.objectOf${name}(data)
@@ -108,6 +123,7 @@ ${childOne}
 ${childTwo}
 ${childThree}
 ${childFour}
+Copy this model and make file ${name}.js under folder src/model
   `);
 }
 
@@ -479,3 +495,4 @@ function genmodelChildFour(data, name) {
           }`;
   }
 }
+module.exports = {genmodel};

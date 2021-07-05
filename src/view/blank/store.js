@@ -1,4 +1,4 @@
-import {store} from 'react-easy-state';
+import {store} from '@risingstack/react-easy-state';
 import {global_state} from '../../utils/global_store';
 
 export const state = store({

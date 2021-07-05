@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -13,5 +13,8 @@ module.exports = {
         inlineRequires: false,
       },
     }),
+  },
+  resolver: {
+    blacklistRE: exclusionList([/genmodel.js/]),
   },
 };

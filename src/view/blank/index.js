@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {view} from 'react-easy-state';
+import {view} from '@risingstack/react-easy-state';
 import {sys_colors} from '../../utils/constants';
 import * as store from './store';
 
