@@ -29,6 +29,7 @@ export const CustomInput = ({
           <View
             style={{
               width: '15%',
+              backgroundColor: sys_colors.textInput,
             }}>
             {left}
           </View>
@@ -52,6 +53,7 @@ export const CustomInput = ({
           <View
             style={{
               width: '15%',
+              backgroundColor: sys_colors.textInput,
             }}>
             {right}
           </View>
@@ -75,15 +77,15 @@ const styles = StyleSheet.create({
   labelStyle: {
     color: sys_colors.text.label,
     fontSize: 14,
-    fontFamily: sys_font.primary[700],
+    fontFamily: sys_font.primary[400],
   },
   inputStyle: {
-    backgroundColor: sys_colors.primary2,
+    backgroundColor: sys_colors.textInput,
     paddingLeft: 30,
     fontSize: 14,
     flex: 1,
     minWidth: '70%',
-    color: sys_colors.text.black,
+    color: sys_colors.text.primary,
     fontFamily: sys_font.primary[400],
   },
 });

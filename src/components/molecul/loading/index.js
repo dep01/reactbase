@@ -10,7 +10,7 @@ const LoadingOverlay = () => {
     return (
       <View style={styles.loading}>
         <View style={styles.container}>
-          <ActivityIndicator size="large" color={sys_colors.text.black} />
+          <ActivityIndicator size="large" color={sys_colors.text.primary} />
           <Text style={styles.textLoading}>Loading ...</Text>
         </View>
       </View>

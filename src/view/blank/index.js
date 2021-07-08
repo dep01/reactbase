@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: sys_colors.primary,
   },
   text: {
-    color: sys_colors.text.white,
+    color: sys_colors.text.primary,
     textAlign: 'center',
     fontWeight: 'bold',
   },

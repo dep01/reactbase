@@ -18,8 +18,8 @@ export const CustomButton = ({
         {
           backgroundColor:
             type == 'primary'
-              ? sys_colors.button.dark
-              : sys_colors.button.light,
+              ? sys_colors.button.primary
+              : sys_colors.button.secondary,
         },
         style,
       ]}>
@@ -30,8 +30,8 @@ export const CustomButton = ({
             {
               color:
                 type == 'primary'
-                  ? sys_colors.text.white
-                  : sys_colors.text.black,
+                  ? sys_colors.text.secondary
+                  : sys_colors.text.primary,
             },
             textStyle,
           ]}>

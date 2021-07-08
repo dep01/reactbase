@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {sys_colors} from '../../../utils/constants';
+import {sys_colors, sys_font} from '../../../utils/constants';
 export const GlobalHeader = ({
   children,
   title = '',
@@ -9,7 +9,7 @@ export const GlobalHeader = ({
   height = '10%',
   fontSize = 16,
   textAlign = 'left',
-  color = sys_colors.text.white,
+  color = sys_colors.text.secondary,
   style = {},
   type = 'primary',
 }) => {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontWeight: 'bold',
+    fontFamily: sys_font.primary[700],
   },
   children: {
     flex: 1,

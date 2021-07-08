@@ -20,7 +20,7 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
   textLoading: {
-    color: sys_colors.text.black,
+    color: sys_colors.text.primary,
     marginTop: 5,
     fontSize: 14,
     fontWeight: 'bold',

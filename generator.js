@@ -550,7 +550,7 @@ async function genview(name) {
   const dir = `./src/view/${name}`;
   console.log('generating view...');
   const strView = `import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {view} from '@risingstack/react-easy-state';
 import {sys_colors, sys_styles,sys_font} from '../../utils/constants';
 import * as store from './store';
@@ -580,7 +580,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 15,
-    color: sys_colors.text.white,
+    color: sys_colors.text.primary,
     fontFamily: sys_font.primary[600]
   }
 });

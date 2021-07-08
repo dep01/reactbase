@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 export const BackButton = ({
   onPress,
   iconName = 'west',
-  color = sys_colors.text.white,
+  color = sys_colors.text.primary,
   size = 24,
   style = {},
 }) => {

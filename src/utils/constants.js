@@ -1,24 +1,32 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
-
+// assets default icons must be here, just add your another icon
 export const sys_icons = {
   ic_react: require('../assets/icon/ic_react.png'),
 };
-
+// default of apps color here, you can change it with another
 export const sys_colors = {
-  primary: '#121212',
-  secondary: '#1F1F1F',
+  primary: '#E8F4EA',
+  secondary: '#07A8ED',
   icon: {
     active: 'gold',
     unactive: '#d5d5d5',
   },
   text: {
-    black: '#121212',
-    white: '#f5f5f5',
+    secondary: '#f5f5f5',
+    primary: '#121212',
+    label: '#CC6633',
+    black: '#000',
+    white: '#fff',
   },
+  button: {
+    primary: '#07A8ED',
+    secondary: '#f5f5f5',
+  },
+  textInput: '#fff',
 };
-
+// default fonts, you can change it with another
 export const sys_font = {
   primary: {
     200: 'Nunito-ExtraLight',
@@ -31,6 +39,7 @@ export const sys_font = {
     normal: 'Nunito-Regular',
   },
 };
+// default text style, improve it include your project
 export const sys_text_styles = StyleSheet.create({
   header_black: {
     fontFamily: sys_font.primary[800],
@@ -93,6 +102,7 @@ export const sys_text_styles = StyleSheet.create({
     color: sys_colors.text.white,
   },
 });
+// default global style
 export const sys_styles = StyleSheet.create({
   scaffold: {
     width: width,
@@ -107,5 +117,29 @@ export const sys_styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'transparent',
+  },
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: sys_colors.primary,
+    padding: 12,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  container_center: {
+    flex: 1,
+    width: width,
+    backgroundColor: sys_colors.primary,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  container_center_screen: {
+    flex: 1,
+    width: width,
+    backgroundColor: sys_colors.primary,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

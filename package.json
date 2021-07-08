@@ -8,10 +8,11 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "generate":"npx run-func generator.js"
+    "generate": "npx run-func generator.js"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@risingstack/react-easy-state": "^6.3.0",

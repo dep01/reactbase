@@ -15,20 +15,7 @@ export default view(({navigation}) => {
   }, [navigation, store]);
   return (
     <View style={sys_styles.scaffold}>
-      <GlobalHeader
-        title="example"
-        type="secondary"
-        right={
-          <BackButton
-            iconName="east"
-            onPress={() => store.NavigateBlank({navigation})}
-            style={{
-              alignItems: 'center',
-            }}
-          />
-        }
-      />
-      <View style={styles.page}>
+      <View style={sys_styles.container_center_screen}>
         <Text style={styles.text}>Count Me!</Text>
         <Text style={styles.text}>{store.state.count}</Text>
         <View style={styles.containerButton}>
@@ -70,13 +57,17 @@ const styles = StyleSheet.create({
   },
   headerRightButton: {
     justifyContent: 'center',
-    color: sys_colors.text.white,
+    color: sys_colors.text.primary,
     flex: 1,
     width: 50,
     alignItems: 'center',
     textAlign: 'center',
   },
-  text: {fontWeight: 'bold', textAlign: 'center', color: sys_colors.text.white},
+  text: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: sys_colors.text.primary,
+  },
   containerButton: {
     width: '100%',
     height: 50,

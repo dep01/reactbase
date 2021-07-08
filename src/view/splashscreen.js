@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, View, StyleSheet} from 'react-native';
+import {static_routes} from '../routes';
 import {sys_icons, sys_colors} from '../utils/constants';
 
 export default ({navigation}) => {
   const timer = async () => {
     setTimeout(() => {
-      navigation.replace('example');
+      navigation.replace(static_routes.signin);
     }, 2000);
   };
   useEffect(() => {

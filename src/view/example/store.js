@@ -18,9 +18,6 @@ export function cleanUp() {
   state.count = 0;
   state.isMinus = false;
 }
-export function NavigateBlank({navigation}) {
-  navigation.navigate('blank');
-}
 export function PlusAction() {
   state.count++;
   global_state.toast?.current.show(state.count);
