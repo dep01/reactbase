@@ -1,6 +1,6 @@
 {
   "name": "reactbase",
-  "version": "1.5.1+18",
+  "version": "1.5.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
