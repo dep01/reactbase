@@ -12,7 +12,7 @@ async function writeFile(dir, name, strFile, message) {
         if (error) {
           fs.writeFile(`${dir}/${name}.js`, strFile, function (error) {
             if (error) {
-              console.log(error);
+              console.log(error.message);
             } else {
               console.log(message);
             }
@@ -28,7 +28,7 @@ async function writeFile(dir, name, strFile, message) {
         if (error) {
           fs.writeFile(`${dir}/${name}.js`, strFile, function (error) {
             if (error) {
-              console.log(error);
+              console.log(error.message);
             } else {
               console.log(message);
             }
@@ -141,7 +141,7 @@ function listOf${name}(data = []) {
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 }
@@ -152,7 +152,7 @@ function objectOf${name}(data = null) {
   }
   try {${forObject}
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }
@@ -253,7 +253,7 @@ function listOf${name}(data = []) {
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 }`;
@@ -266,7 +266,7 @@ function objectOf${name}(data = null) {
   }
   try {${forObject}
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }`;
@@ -352,7 +352,7 @@ function listOf${name}(data = []) {
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 };`;
@@ -365,7 +365,7 @@ function objectOf${name}(data = null) {
   };
   try {${forObject}
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }`;
@@ -450,7 +450,7 @@ function listOf${name}(data = []) {
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 }`;
@@ -463,7 +463,7 @@ function objectOf${name}(data = null) {
   };
   try {${forObject}
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }`;
@@ -527,7 +527,7 @@ function listOf${name}(data = []) {
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 }`;
@@ -540,7 +540,7 @@ function objectOf${name}(data = null) {
   };
   try {${forObject}
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }`;
@@ -563,21 +563,13 @@ export default view(({navigation}) => {
   }, [navigation, store]);
   return (
     <View style={sys_styles.scaffold}>
-      <View style={styles.container}>
+      <View style={sys_styles.container_center_screen}>
         <Text style={styles.titleText}>This is ${name} page</Text>
       </View>
     </View>
   );
 });
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    backgroundColor: sys_colors.primary,
-  },
   titleText: {
     fontSize: 15,
     color: sys_colors.text.primary,

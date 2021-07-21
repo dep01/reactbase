@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {view} from '@risingstack/react-easy-state';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import {sys_colors, sys_styles, sys_font} from '../../utils/constants';
 import * as store from './store';
-import {GlobalHeader, BackButton} from '../../components';
+import {GlobalHeader, BackButton, CustomButton} from '../../components';
 
 export default view(({navigation}) => {
   useEffect(() => {

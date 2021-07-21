@@ -1,5 +1,6 @@
 import {store} from '@risingstack/react-easy-state';
 import {Alert} from 'react-native';
+import {sampleTest} from '../../providers/sample';
 import {global_state} from '../../utils/global_store';
 
 export const state = store({
@@ -7,6 +8,7 @@ export const state = store({
   count: 0,
   isMinus: false,
 });
+
 export async function initialized() {
   global_state.setLoading(true);
   setTimeout(() => {
