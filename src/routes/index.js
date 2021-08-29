@@ -3,19 +3,20 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {BlankScreen, ExampleScreen, SplashScreen, SignScreen} from './view';
-import {sys_colors, sys_font} from './utils/constants';
-
+import {
+  BlankScreen,
+  ExampleScreen,
+  SplashScreen,
+  SignScreen,
+  FeaturesScreen,
+  DetailFeaturesScreen,
+  ComponentScreen,
+} from '../view';
+import {sys_colors, sys_font} from '../utils/constants';
+import {static_routes} from './static_routes';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export const static_routes = {
-  splash: 'splash',
-  signin: 'sign',
-  homepage: 'homepage',
-  blank: 'blank',
-  example: 'example',
-};
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
@@ -24,8 +25,12 @@ const BottomTabNavigator = () => {
           let iconName;
           if (route.name === static_routes.example) {
             iconName = 'home';
-          } else {
+          } else if (route.name === static_routes.blank) {
             iconName = 'file';
+          } else if (route.name === static_routes.features) {
+            iconName = 'list';
+          } else {
+            iconName = 'atom';
           }
           return (
             <Icon
@@ -54,9 +59,19 @@ const BottomTabNavigator = () => {
         options={{title: 'Basic Logic'}}
       />
       <Tab.Screen
+        name={static_routes.component}
+        component={ComponentScreen}
+        options={{title: 'Custom Component'}}
+      />
+      <Tab.Screen
         name={static_routes.blank}
         component={BlankScreen}
         options={{title: 'Blank Pages'}}
+      />
+      <Tab.Screen
+        name={static_routes.features}
+        component={FeaturesScreen}
+        options={{title: 'Features'}}
       />
     </Tab.Navigator>
   );
@@ -78,6 +93,11 @@ const Routes = () => {
         <Stack.Screen
           name={static_routes.homepage}
           component={BottomTabNavigator}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={static_routes.detail_features}
+          component={DetailFeaturesScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

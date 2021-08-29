@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, View, StyleSheet} from 'react-native';
-import {static_routes} from '../routes';
+import {static_routes} from '../routes/static_routes';
 import {sys_icons, sys_colors} from '../utils/constants';
 
 export default ({navigation}) => {

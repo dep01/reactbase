@@ -7,6 +7,8 @@ export const CustomButton = ({
   type = 'primary',
   style = {},
   textStyle = {},
+  baseWidth = '45%',
+  baseHeight = 55,
   children,
   onPress,
 }) => {
@@ -16,6 +18,8 @@ export const CustomButton = ({
       style={[
         styles.default,
         {
+          width: baseWidth,
+          height: baseHeight,
           backgroundColor:
             type == 'primary'
               ? sys_colors.button.primary
@@ -45,8 +49,6 @@ export const CustomButton = ({
 };
 const styles = StyleSheet.create({
   default: {
-    width: '45%',
-    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
   },

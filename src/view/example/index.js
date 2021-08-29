@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {view} from '@risingstack/react-easy-state';
-import {sys_colors, sys_styles, sys_font} from '../../utils/constants';
+import {sys_colors, sys_styles, sys_text_styles} from '../../utils/constants';
 import * as store from './store';
-import {GlobalHeader, BackButton, CustomButton} from '../../components';
+import {Divider} from '../../components';
 
 export default view(({navigation}) => {
   useEffect(() => {
@@ -36,6 +36,7 @@ export default view(({navigation}) => {
             {store.state.isMinus ? 'Disable Minus' : 'Enable Minus'}
           </Text>
         </TouchableOpacity>
+        <Divider lineHeight={0.7} height={20} width="100%" align="flex-start" />
         <TouchableOpacity
           onPress={() => store.TestLoading()}
           style={styles.buttonAllowed}>
@@ -63,9 +64,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   text: {
-    fontWeight: 'bold',
+    ...sys_text_styles.header_medium_black,
     textAlign: 'center',
-    color: sys_colors.text.primary,
   },
   containerButton: {
     width: '100%',
@@ -101,11 +101,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 5,
   },
-  textButton: {fontSize: 24, fontWeight: 'bold', color: 'white'},
+  textButton: {
+    ...sys_text_styles.header_white,
+  },
   textButtonAllow: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
+    ...sys_text_styles.header_medium_white,
   },
 });

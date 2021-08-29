@@ -4,6 +4,7 @@ import {Paragraph} from './paragraph';
 import {LoadingIndicator} from './loadingIndicator';
 import {SpaceText} from './spaceText';
 import {CustomInput} from './customInput';
+import {Divider} from './divider';
 
 export {
   BackButton,
@@ -12,4 +13,5 @@ export {
   LoadingIndicator,
   SpaceText,
   CustomInput,
+  Divider,
 };

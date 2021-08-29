@@ -1,5 +1,5 @@
 import {store} from '@risingstack/react-easy-state';
-import {static_routes} from '../../routes';
+import {static_routes} from '../../routes/static_routes';
 import {global_state} from '../../utils/global_store';
 export const state = store({
   loading: false,
@@ -36,12 +36,8 @@ export async function doLogin({navigation}) {
     global_state.toast?.current.show('Password must be filled');
     global_state.setLoading(false);
     return false;
-  } else if (state.username != 'dep01') {
-    global_state.toast?.current.show('Username is dep01');
-    global_state.setLoading(false);
-    return false;
-  } else if (state.password != 'dep01') {
-    global_state.toast?.current.show('Password is dep01');
+  } else if (state.password != state.username) {
+    global_state.toast?.current.show('Username and Password must be same!');
     global_state.setLoading(false);
     return false;
   } else {

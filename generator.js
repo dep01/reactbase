@@ -43,7 +43,7 @@ async function writeFile(dir, name, strFile, message) {
   });
   return true;
 }
-async function genmodel(fileJson, name) {
+async function model(fileJson, name) {
   var data = null;
   try {
     data = require(`./src/data/${fileJson}`);
@@ -546,13 +546,13 @@ function objectOf${name}(data = null) {
 }`;
   }
 }
-async function genview(name) {
+async function view(name) {
   const dir = `./src/view/${name}`;
   console.log('generating view...');
   const strView = `import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {view} from '@risingstack/react-easy-state';
-import {sys_colors, sys_styles,sys_font} from '../../utils/constants';
+import {sys_colors, sys_styles, sys_text_styles} from '../../utils/constants';
 import * as store from './store';
 export default view(({navigation}) => {
   useEffect(() => {
@@ -571,9 +571,7 @@ export default view(({navigation}) => {
 });
 const styles = StyleSheet.create({
   titleText: {
-    fontSize: 15,
-    color: sys_colors.text.primary,
-    fontFamily: sys_font.primary[600]
+    ...sys_text_styles.header_medium_black,
   }
 });
   `;
@@ -592,4 +590,4 @@ export function cleanUp() {
 `;
   writeFile(dir, `store`, strStore, 'store successfully generated..');
 }
-module.exports = {genmodel, genview};
+module.exports = {model, view};

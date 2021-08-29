@@ -24,6 +24,10 @@ export const sys_colors = {
     primary: '#07A8ED',
     secondary: '#f5f5f5',
   },
+  line: {
+    primary: '#d5d5d5',
+    secondary: '#121212',
+  },
   textInput: '#fff',
 };
 // default fonts, you can change it with another
@@ -141,5 +145,10 @@ export const sys_styles = StyleSheet.create({
     padding: 12,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  scroll_container: {
+    padding: 12,
+    width: width,
+    marginBottom: height * 0.08,
   },
 });
