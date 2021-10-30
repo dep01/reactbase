@@ -47,6 +47,10 @@ export const CustomButton = ({
     </TouchableOpacity>
   );
 };
+CustomButton.Types = {
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
+};
 const styles = StyleSheet.create({
   default: {
     justifyContent: 'center',

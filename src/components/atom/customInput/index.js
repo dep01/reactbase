@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {sys_colors, sys_font} from '../../../utils/constants';
-
 export const CustomInput = ({
   label = '',
   left = null,
   right = null,
+  containerStyle = {},
   inputStyle = {},
   labelStyle = {},
   containerText = {},
@@ -18,7 +18,7 @@ export const CustomInput = ({
   numberOfLines = 1,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       {label != '' ? (
         <Text style={[styles.labelStyle, labelStyle]}>
           {label.toUpperCase()}
@@ -66,7 +66,7 @@ export const CustomInput = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 20,
+    marginTop: 5,
   },
   containerText: {
     flexDirection: 'row',
