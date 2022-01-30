@@ -43,8 +43,9 @@ async function writeFile(dir, name, strFile, message) {
   });
   return true;
 }
-async function model(fileJson, name) {
+async function model(fileJson, name,withProvider) {
   var data = null;
+  var named = name +'Model';
   try {
     data = require(`./src/data/${fileJson}`);
   } catch (error) {
@@ -95,15 +96,15 @@ async function model(fileJson, name) {
   });
   console.log('generating list data...');
   var strFile = `// HOW TO IMPORT ?
-// const Convert = require('location/${name}.js'); 
+// const Convert = require('location/${named}.js'); 
 // OR
-// import Convert from 'location/${name}.js'
+// import Convert from 'location/${named}.js'
 // HOW TO USE?
 // FOR OBJECT
-// const data = Convert.objectOf${name}(data)
+// const data = Convert.objectOf${named}(data)
 // FOR ARRAY
-// const data = Convert.listOf${name}(data)
-const modelOfData${name} = {${listKey.map((val) => {
+// const data = Convert.listOf${named}(data)
+const modelOfData${named} = {${listKey.map((val) => {
     const dataType =
       val.type == 'string'
         ? "''"
@@ -119,8 +120,8 @@ const modelOfData${name} = {${listKey.map((val) => {
     return `\n\t${val.name}: ${dataType}`;
   })}
 };
-function listOf${name}(data = []) {
-  var listData = [modelOfData${name}];
+function listOf${named}(data = []) {
+  var listData = [modelOfData${named}];
   listData = [];
   try {
     data.map((val) => {
@@ -145,8 +146,8 @@ function listOf${name}(data = []) {
   }
   return listData;
 }
-function objectOf${name}(data = null) {
-  var objectData = modelOfData${name};
+function objectOf${named}(data = null) {
+  var objectData = modelOfData${named};
   if (data == null) {
     return null;
   }
@@ -157,8 +158,8 @@ function objectOf${name}(data = null) {
   return objectData;
 }
 module.exports = {
-  listOf${name}: listOf${name},
-  objectOf${name}: objectOf${name},
+  listOf${named}: listOf${named},
+  objectOf${named}: objectOf${named},
 };
 ${childOne}
 ${childTwo}
@@ -168,10 +169,13 @@ ${childFour}
   console.log('generating file model...');
   await writeFile(
     './src/model',
-    name,
+    named,
     strFile,
-    `file model saved to directory src/model/${name}.js`,
+    `file model saved to directory src/model/${named}.js`,
   );
+  if(withProvider){
+    await providers(name);
+  }
 }
 
 function genmodelChildOne(data, name) {
@@ -589,5 +593,61 @@ export function cleanUp() {
 }
 `;
   writeFile(dir, `store`, strStore, 'store successfully generated..');
+}
+async function providers(name){
+  console.log('generating provider...');
+  const named = name + 'Provider';
+  const str = `import Convert from '../model/${name}Model.js';
+import {sys_get,sys_post,sys_put,sys_del} from '../utils/api_client';
+
+const uri = '${name}/'
+export async function getAll(){
+  try {
+    const response = await sys_get({endpoint: uri});
+    return Convert.listOf${name}Model(response.callback);
+  } catch (error) {
+    
+  }
+}
+export async function getById(id){
+  try {
+    const response = await sys_get({endpoint: uri+id});
+    return Convert.objectOf${name}Model(response.callback);
+  } catch (error) {
+    
+  }
+}
+export async function addData(data){
+  try {
+    const response = await sys_post({endpoint: uri,body:data});
+    return response.callback;
+  } catch (error) {
+    
+  }
+}
+export async function updateData(data){
+  try {
+    const response = await sys_put({endpoint: uri,body:data});
+    return response.callback;
+  } catch (error) {
+    
+  }
+}
+export async function deleteData(id){
+  try {
+    const response = await sys_del({endpoint: uri+id});
+    return response.callback;
+  } catch (error) {
+    
+  }
+}
+
+  `;
+  await writeFile(
+    './src/providers',
+    named,
+    str,
+    `file provider saved to directory src/providers/${named}.js`,
+  );
 }
 module.exports = {model, view};
