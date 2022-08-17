@@ -71,10 +71,19 @@ async function model(fileJson, name,withProvider) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
+      is_single: false
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-        genmodelChildOne(object[key], key);
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
+        if(Array.isArray(object[key])){ 
+          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+            x.is_single = true;
+          }else{
+            genmodelChildOne(object[key], key);
+          }
+        }else{
+          genmodelChildOne(object[key], key);
+        }
       }
     }
     listKey.push(x);
@@ -85,8 +94,10 @@ async function model(fileJson, name,withProvider) {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data)) {
+    } else if (Array.isArray(val.data) && !val.is_single) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
+    } else if (Array.isArray(val.data) && val.is_single) {
+      str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data == 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
@@ -114,8 +125,10 @@ const modelOfData${named} = {${listKey.map((val) => {
         ? false
         : val.type == 'number'
         ? 0
-        : Array.isArray(val.data)
+        : Array.isArray(val.data) && !val.is_single
         ? `[modelOfData${val.name}]`
+        : Array.isArray(val.data) && val.is_single
+        ? '[]'
         : `modelOfData${val.name}`;
     return `\n\t${val.name}: ${dataType}`;
   })}
@@ -129,8 +142,10 @@ function listOf${named}(data = []) {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data)) {
+        } else if (Array.isArray(val.data) && !val.is_single) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+        } else if (Array.isArray(val.data) && val.is_single) {
+          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data == 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
@@ -191,10 +206,19 @@ function genmodelChildOne(data, name) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
+      is_single: false
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-        genmodelChildTwo(object[key], key);
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
+        if(Array.isArray(object[key])){ 
+          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+            x.is_single = true;
+          }else{
+            genmodelChildTwo(object[key], key);
+          }
+        }else{
+          genmodelChildTwo(object[key], key);
+        }
       }
     }
     listKey.push(x);
@@ -205,8 +229,10 @@ function genmodelChildOne(data, name) {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data)) {
+    } else if (Array.isArray(val.data) && !val.is_single) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
+    } else if (Array.isArray(val.data) && val.is_single) {
+      str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data == 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
@@ -217,18 +243,20 @@ function genmodelChildOne(data, name) {
 
   childOne += `
 const modelOfData${name} = {${listKey.map((val) => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data)
-        ? `[modelOfData${val.name}]`
-        : `modelOfData${val.name}`;
+  const dataType =
+    val.type == 'string'
+      ? "''"
+      : val.type == 'null'
+      ? null
+      : val.type == 'boolean'
+      ? false
+      : val.type == 'number'
+      ? 0
+      : Array.isArray(val.data) && !val.is_single
+      ? `[modelOfData${val.name}]`
+      : Array.isArray(val.data) && val.is_single
+      ? '[]'
+      : `modelOfData${val.name}`;
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -244,8 +272,10 @@ function listOf${name}(data = []) {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data)) {
+        } else if (Array.isArray(val.data) && !val.is_single) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+        } else if (Array.isArray(val.data) && val.is_single) {
+          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data == 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
@@ -290,10 +320,19 @@ function genmodelChildTwo(data, name) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
+      is_single: false
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-        genmodelChildThree(object[key], key);
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
+        if(Array.isArray(object[key])){ 
+          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+            x.is_single = true;
+          }else{
+            genmodelChildThree(object[key], key);
+          }
+        }else{
+          genmodelChildThree(object[key], key);
+        }
       }
     }
     listKey.push(x);
@@ -304,8 +343,10 @@ function genmodelChildTwo(data, name) {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data)) {
+    } else if (Array.isArray(val.data) && !val.is_single) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
+    } else if (Array.isArray(val.data) && val.is_single) {
+      str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data == 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
@@ -325,8 +366,10 @@ const modelOfData${name} = {${listKey.map((val) => {
         ? false
         : val.type == 'number'
         ? 0
-        : Array.isArray(val.data)
+        : Array.isArray(val.data) && !val.is_single
         ? `[modelOfData${val.name}]`
+        : Array.isArray(val.data) && val.is_single
+        ? '[]'
         : `modelOfData${val.name}`;
     return `\n\t${val.name}: ${dataType}`;
   })}
@@ -343,8 +386,10 @@ function listOf${name}(data = []) {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data)) {
+        } else if (Array.isArray(val.data) && !val.is_single) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+        } else if (Array.isArray(val.data) && val.is_single) {
+          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data == 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
@@ -388,10 +433,19 @@ function genmodelChildThree(data, name) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
+      is_single: false
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') {
-        genmodelChildFour(object[key], key);
+      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
+        if(Array.isArray(object[key])){ 
+          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+            x.is_single = true;
+          }else{
+            genmodelChildFour(object[key], key);
+          }
+        }else{
+          genmodelChildFour(object[key], key);
+        }
       }
     }
     listKey.push(x);
@@ -402,8 +456,10 @@ function genmodelChildThree(data, name) {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data)) {
+    } else if (Array.isArray(val.data) && !val.is_single) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
+    } else if (Array.isArray(val.data) && val.is_single) {
+      str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data == 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
@@ -414,18 +470,20 @@ function genmodelChildThree(data, name) {
 
   childThree += `
 const modelOfData${name} = {${listKey.map((val) => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data)
-        ? `[modelOfData${val.name}]`
-        : `modelOfData${val.name}`;
+  const dataType =
+    val.type == 'string'
+      ? "''"
+      : val.type == 'null'
+      ? null
+      : val.type == 'boolean'
+      ? false
+      : val.type == 'number'
+      ? 0
+      : Array.isArray(val.data) && !val.is_single
+      ? `[modelOfData${val.name}]`
+      : Array.isArray(val.data) && val.is_single
+      ? '[]'
+      : `modelOfData${val.name}`;
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -441,8 +499,10 @@ function listOf${name}(data = []) {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data)) {
+        } else if (Array.isArray(val.data) && !val.is_single) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+        } else if (Array.isArray(val.data) && val.is_single) {
+          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data == 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {

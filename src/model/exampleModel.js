@@ -12,6 +12,7 @@ const modelOfDataexampleModel = {
 	first_name: '',
 	last_name: '',
 	parent: [modelOfDataparent],
+	dddaaa: [],
 	address: modelOfDataaddress,
 	child: null
 };
@@ -25,13 +26,14 @@ function listOfexampleModel(data = []) {
 				first_name: val.first_name ?? null,
 				last_name: val.last_name ?? null,
 				parent: listOfparent(val.parent ?? []),
+				dddaaa: val.dddaaa ?? [],
 				address: objectOfaddress(val.address ?? null),
 				child: val.child ?? null
       };
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 }
@@ -45,10 +47,11 @@ function objectOfexampleModel(data = null) {
 		objectData.first_name = data.first_name ?? null;
 		objectData.last_name = data.last_name ?? null;
 		objectData.parent = listOfparent(data.parent ?? []);
+		objectData.dddaaa = data.dddaaa ?? [];
 		objectData.address = objectOfaddress(data.address ?? null);
 		objectData.child = data.child ?? null;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }
@@ -73,7 +76,7 @@ function listOfparent(data = []) {
       listData.push(object);
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return listData;
 }
@@ -90,7 +93,7 @@ function objectOfaddress(data = null) {
 		objectData.road = data.road ?? null;
 		objectData.number = data.number ?? null;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
   return objectData;
 }

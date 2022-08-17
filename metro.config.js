@@ -4,17 +4,18 @@
  *
  * @format
  */
-const exclusionList = require('metro-config/src/defaults/exclusionList');
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
-  },
-  resolver: {
-    blacklistRE: exclusionList([/genmodel.js/]),
-  },
-};
+ const exclusionList = require('metro-config/src/defaults/exclusionList');
+ module.exports = {
+   transformer: {
+     getTransformOptions: async () => ({
+       transform: {
+         experimentalImportSupport: false,
+         inlineRequires: false,
+       },
+     }),
+   },
+   resolver: {
+     blacklistRE: exclusionList([/genmodel.js/,/app_name_shanger.js/]),
+   },
+ };
+ 
