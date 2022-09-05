@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "generate": "npx run-func generator.js",
+    "app-name": "npx run-func app_name_changer.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.7",

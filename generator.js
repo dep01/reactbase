@@ -625,19 +625,19 @@ function objectOf${name}(data = null) {
   }
 }
 async function view(name) {
-  const dir = `./src/view/${name}`;
+  const dir = `./src/pages/${name}`;
   console.log('generating view...');
   const strView = `import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {sys_colors, sys_styles, sys_text_styles} from '@/utils/constants';
-import * as store from './store';
+import store from './store';
 export default ({navigation}) => {
   useEffect(() => {
     store.initialized();
     return () => {
       store.cleanUp();
     };
-  }, [navigation, store]);
+  }, [navigation]);
   return (
     <View style={sys_styles.scaffold}>
       <View style={sys_styles.container_center_screen}>
@@ -655,11 +655,11 @@ const styles = StyleSheet.create({
   await writeFile(dir, 'index', strView, 'view successfully generated..');
   console.log('generating store...');
   const strStore = `import create from 'zustand';
-export const state = create({
+export const state = create(set => ({
   loading: false,
   initialize: () => set({loading: true}),
   cleanUp: () => set({loading: false}),
-});
+}));
 `;
   writeFile(dir, 'store', strStore, 'store successfully generated..');
 }
