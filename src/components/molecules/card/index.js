@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Dimensions, Text} from 'react-native';
-import {sys_colors, sys_text_styles} from '@/utils/constants';
+import {sys_colors, sys_text_styles} from 'rbase-helpers/constants';
 
 const {width, height} = Dimensions.get('window');
 
@@ -9,12 +9,24 @@ export const Card = ({
   Height = height * 0.1,
   borderRadius = 0,
   padding = 0,
-  backgroundColor = sys_colors.primary2,
+  backgroundColor = sys_colors.primary,
   title = '',
   uppercase = false,
+  Width = width * 0.1,
+  marginBottom = 10,
+  marginTop = 0,
+  marginLeft = 0,
+  marginRight = 0,
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        width: Width,
+        marginBottom: marginBottom,
+        marginLeft: marginLeft,
+        marginTop: marginTop,
+        marginRight: marginRight,
+      }}>
       {title != '' ? (
         <Text
           style={{
@@ -30,7 +42,6 @@ export const Card = ({
           minHeight: Height,
           borderRadius: borderRadius,
           padding: padding,
-          marginBottom: 10,
           backgroundColor: backgroundColor,
         }}>
         {children}

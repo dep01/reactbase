@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
-import {sys_colors, sys_font} from '@/utils/constants';
+import {sys_colors, sys_font} from 'rbase-helpers/constants';
 
 export const LoadingIndicator = ({
   text = 'Loading...',

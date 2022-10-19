@@ -629,15 +629,23 @@ async function view(name) {
   console.log('generating view...');
   const strView = `import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {sys_colors, sys_styles, sys_text_styles} from '@/utils/constants';
-import store from './store';
+import shallow from 'zustand/shallow';
+import {sys_colors, sys_styles, sys_text_styles} from 'rbase-helpers/constants';
+import {action,setter,useStore,base_state} from './store';
 export default ({navigation}) => {
-  useEffect(() => {
-    store.initialized();
-    return () => {
-      store.cleanUp();
-    };
-  }, [navigation]);
+  const state = {
+    ...useStore(
+      state => (base_state(state)),
+      shallow,
+    ),
+  };
+
+useEffect(() => {
+  action.initialize();
+  return () => {
+    action.cleanUp();
+  };
+}, [navigation, action]);
   return (
     <View style={sys_styles.scaffold}>
       <View style={sys_styles.container_center_screen}>
@@ -655,11 +663,19 @@ const styles = StyleSheet.create({
   await writeFile(dir, 'index', strView, 'view successfully generated..');
   console.log('generating store...');
   const strStore = `import create from 'zustand';
-export const state = create(set => ({
-  loading: false,
-  initialize: () => set({loading: true}),
-  cleanUp: () => set({loading: false}),
-}));
+  export function base_state (props) {
+      return {
+        loading: props?.loading??false
+      }
+  }
+  export const useStore = create(set => (base_state()));
+  export const action = {
+    initialize: () => {},
+    cleanUp: () => useStore.destroy(),
+  };
+  export const setter = {
+    loading: (value = false) => useStore.setState({loading: value}),
+  };
 `;
   writeFile(dir, 'store', strStore, 'store successfully generated..');
 }

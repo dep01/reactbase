@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {sys_text_styles} from '@/utils/constants';
+import {sys_text_styles} from 'rbase-helpers/constants';
 
 export const SpaceText = ({
   left = '',

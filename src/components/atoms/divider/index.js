@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import {sys_colors} from '@/utils/constants';
+import {sys_colors} from 'rbase-helpers/constants';
 
 export const Divider = ({
   color = sys_colors.line.primary,

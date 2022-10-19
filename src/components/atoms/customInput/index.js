@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {sys_colors, sys_font} from '../../../utils/constants';
+import {sys_colors, sys_font} from 'rbase-helpers/constants';
 export const CustomInput = ({
   label = '',
   left = null,
@@ -38,7 +38,7 @@ export const CustomInput = ({
         <TextInput
           style={[
             styles.inputStyle,
-            {paddingLeft: left != null ? 5 : 30},
+            {paddingLeft: left != null ? 5 : 15},
             inputStyle,
           ]}
           onChangeText={onChangeText}

@@ -1,3 +1,3 @@
-import {LoadingOverlay, loadingStore} from './LoadingOverlay';
-
-export {LoadingOverlay, loadingStore};
+export {LoadingOverlay, loadingStore} from './LoadingOverlay';
+export {Card} from './card';
+export {GlobalHeader} from './globalHeader'
