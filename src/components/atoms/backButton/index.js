@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {sys_colors} from 'rbase-helpers/constants';
 import {useNavigation} from '@react-navigation/native';
 export const BackButton = ({

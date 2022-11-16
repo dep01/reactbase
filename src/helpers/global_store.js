@@ -11,28 +11,37 @@ export function SysCurrencyTransform({num = 0, currency = 'IDR'}) {
     currency + ' ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
   );
 }
-export function SysGetCurrentTime({lang='en',type="long"}) {
+export function SysGetCurrentTime({lang = 'en', type = 'long'}) {
   const date = new Date();
   return {
-    "time":`${addZero({num:date.getHours()})}:${addZero({num:date.getMinutes()})}:${addZero({num:date.getSeconds()})}`,
-    "day": SysDay({date:date,lang:lang}),
-    "date":SysDateTransform({date:date,type:type,lang:lang})
+    time: `${addZero({num: date.getHours()})}:${addZero({
+      num: date.getMinutes(),
+    })}:${addZero({num: date.getSeconds()})}`,
+    day: SysDay({date: date, lang: lang}),
+    date: SysDateTransform({date: date, type: type, lang: lang}),
   };
 }
-export function addZero({num=0}){
-  if(num < 10){
-    return `0${num}`
+export function addZero({num = 0}) {
+  if (num < 10) {
+    return `0${num}`;
   }
-  return `${num}`
+  return `${num}`;
 }
-export function SysDay({date='',lang="en"}) {
-  var days = ["Sunday","Monday","Thuesday","Wednesday","Thursday","Friday","Saturday"];
+export function SysDay({date = '', lang = 'en'}) {
+  var days = [
+    'Sunday',
+    'Monday',
+    'Thuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
   const dateFormat = new Date(date);
-  if(lang != "en"){
-    days = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+  if (lang != 'en') {
+    days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
   }
-  return days[dateFormat.getDay()]
-
+  return days[dateFormat.getDay()];
 }
 export function SysDateTransform({
   date = '',

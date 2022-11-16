@@ -1,14 +1,16 @@
-import {getToken} from '@/helpers/session';
-import {API_URL} from '@env';
+import {getSession, getToken} from 'rbase-helpers/session';
+import { SESSION } from './constants';
+// import {API_URL} from '@env';
+const API_URL = "http://139.180.155.53:8002/";
 
 // THIS IS BASEURL CHANGE WITH YOUR API URL EX.. https://jsonplaceholder.typicode.com/
 // const baseUrl = 'http://103.158.192.161:3000';
 // THIS IS DEFAULT CALLBACK, JUST CHANGE IT IF YOU HAVE ANOTHER DEFAULT
 const callbackModel = {
-  code: 503,
-  status: false,
+  code:503,
+  success: false,
   message: 'Network request failed',
-  callback: null,
+  data: null,
 };
 
 export const sys_get = async ({auth = false, endpoint = ''}) => {
@@ -23,11 +25,10 @@ export const sys_get = async ({auth = false, endpoint = ''}) => {
     },
   });
   const data = await response.json();
-
   callback.code = response.status;
-  callback.status = response.status == 200;
+  callback.success = data.success;
   callback.message = data.message;
-  callback.callback = data.callback;
+  callback.data = data.data;
   if (response.status > 201 && response.status < 200) {
     throw callback;
   }
@@ -47,9 +48,9 @@ export const sys_post = async ({auth = false, endpoint = '', body = {}}) => {
   });
   const data = await response.json();
   callback.code = response.status;
-  callback.status = response.status == 200 || response.status == 201;
+  callback.success = data.success ;
   callback.message = data.message;
-  callback.callback = data.callback;
+  callback.data = data.data;
   if (response.status > 201 && response.status < 200) {
     throw callback;
   }
@@ -68,16 +69,19 @@ export const sys_del = async ({auth = false, endpoint = ''}) => {
   });
   const data = await response.json();
   callback.code = response.status;
-  callback.status = response.status == 200;
+  callback.success = response.success;
   callback.message = data.message;
-  callback.callback = data.callback;
+  callback.data = data.data;
   if (response.status > 201 && response.status < 200) {
     throw callback;
   }
   return callback;
 };
-export const sys_put = async ({auth = false, endpoint = '', body = {}}) => {
+export const sys_put = async ({auth = false, endpoint = '', body = {},is_refresh=false}) => {
   let token = await getToken();
+  if(is_refresh){
+    token = await getSession(SESSION.REFRESH_TOKEN);
+  }
   var callback = callbackModel;
   const response = await fetch(API_URL + endpoint, {
     method: 'PUT',
@@ -89,10 +93,11 @@ export const sys_put = async ({auth = false, endpoint = '', body = {}}) => {
     body: JSON.stringify(body),
   });
   const data = await response.json();
+  console.log(data);
   callback.code = response.status;
-  callback.status = response.status == 200 || response.status == 201;
+  callback.success = data.success;
   callback.message = data.message;
-  callback.callback = data.callback;
+  callback.data = data.data;
   if (response.status > 201 && response.status < 200) {
     throw callback;
   }

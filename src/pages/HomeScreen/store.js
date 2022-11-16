@@ -1,14 +1,12 @@
 import create from 'zustand';
-import {routes_name} from 'rbase-routes';
-export const useStore = create(set => ({
-  loading: false,
-}));
+export function base_state(props) {
+  return {
+    loading: props?.loading ?? false,
+  };
+}
+export const useStore = create(set => base_state());
 export const action = {
-  initialize: navigation => {
-    setTimeout(() => {
-      navigation.replace(routes_name.LOGIN);
-    }, 2000);
-  },
+  initialize: () => {},
   cleanUp: () => {
     useStore.setState();
     useStore.destroy();

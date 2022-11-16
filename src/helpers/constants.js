@@ -3,6 +3,14 @@ import {heightPercentageToDP} from './responsive';
 
 const {width, height} = Dimensions.get('window');
 // assets default icons must be here, just add your another icon
+
+
+export const SESSION = {
+  ACCESS_TOKEN: 'ACCESS_TOKEN',
+  REFRESH_TOKEN: 'REFRESH_TOKEN',
+};
+
+
 export const sys_icons = {
   ic_loading: require('../assets/images/ic_loading.png'),
 };
@@ -50,60 +58,72 @@ export const sys_text_styles = {
     header_black: {
       fontFamily: sys_font.primary[800],
       fontSize: 16,
+      fontWeight:'700',
       color: sys_colors.text.black,
     },
     header_medium_black: {
       fontFamily: sys_font.primary[800],
+      fontWeight:'700',
       fontSize: 14,
       color: sys_colors.text.black,
     },
     header_small_black: {
       fontFamily: sys_font.primary[800],
+      fontWeight:'700',
       fontSize: 12,
       color: sys_colors.text.black,
     },
     header_white: {
       fontFamily: sys_font.primary[800],
+      fontWeight:'700',
       fontSize: 16,
       color: sys_colors.text.white,
     },
     header_medium_white: {
       fontFamily: sys_font.primary[800],
+      fontWeight:'700',
       fontSize: 14,
       color: sys_colors.text.white,
     },
     header_small_white: {
       fontFamily: sys_font.primary[800],
+      fontWeight:'700',
       fontSize: 12,
       color: sys_colors.text.white,
     },
     content_black: {
       fontFamily: sys_font.primary[400],
+      fontWeight:'400',
       fontSize: 16,
       color: sys_colors.text.black,
     },
     content_medium_black: {
       fontFamily: sys_font.primary[400],
+      fontWeight:'400',
       fontSize: 14,
       color: sys_colors.text.black,
     },
     content_small_black: {
       fontFamily: sys_font.primary[400],
+      fontWeight:'400',
       fontSize: 12,
       color: sys_colors.text.black,
     },
     content_white: {
       fontFamily: sys_font.primary[400],
+      fontWeight:'400',
       fontSize: 16,
       color: sys_colors.text.white,
     },
     content_medium_white: {
       fontFamily: sys_font.primary[400],
+      fontWeight:'400',
       fontSize: 14,
       color: sys_colors.text.white,
     },
     content_small_white: {
       fontFamily: sys_font.primary[400],
+      fontWeight:'400',
       fontSize: 12,
       color: sys_colors.text.white,
     },

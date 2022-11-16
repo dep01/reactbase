@@ -671,7 +671,10 @@ const styles = StyleSheet.create({
   export const useStore = create(set => (base_state()));
   export const action = {
     initialize: () => {},
-    cleanUp: () => useStore.destroy(),
+    cleanUp: () => {
+      useStore.setState();
+      useStore.destroy();
+    },
   };
   export const setter = {
     loading: (value = false) => useStore.setState({loading: value}),

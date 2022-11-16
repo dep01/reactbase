@@ -6,3 +6,4 @@ export {Divider} from './divider';
 export {LoadingIndicator} from './loadingIndicator';
 export {Paragraph} from './paragraph';
 export {SpaceText} from './spaceText';
+export {AlertCustom} from './alertCustom'
