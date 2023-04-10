@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Modal, View, Text} from 'react-native';
+import {StyleSheet, TouchableOpacity, Modal, View, Text,Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {sys_colors, sys_text_styles} from 'rbase-helpers/constants';
 import {
@@ -18,6 +18,7 @@ export const AlertCustom = ({
   title = '',
   message = '',
   height = heightPercentageToDP(30),
+  align="left"
 }) => {
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
@@ -45,30 +46,30 @@ export const AlertCustom = ({
               />
             )}
             {message == '' ? null : (
-              <Text style={{...sys_text_styles.content_medium_black}}>
+              <Text style={{...sys_text_styles.content_medium_black,textAlign:align}}>
                 {message.toUpperCase()}
               </Text>
             )}
           </View>
           <View style={styles.containerAction}>
             {onOk == null ? null : (
-              <TouchableOpacity onPress={onOk}>
+              <Pressable onPress={onOk}>
                 <View style={styles.buttonOk}>
                   <Text style={{...sys_text_styles.content_medium_black}}>
                     {okText.toUpperCase()}
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
             {onCancel == null ? null : (
-              <TouchableOpacity
+              <Pressable
                 onPress={onCancel}>
                 <View style={styles.buttonCancel}>
                   <Text style={{...sys_text_styles.content_medium_white}}>
                     {cancelText.toUpperCase()}
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
           </View>
         </View>
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft:5,
     backgroundColor: sys_colors.button.primary,
   },
   buttonOk: {
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: sys_colors.text.white,
-    marginLeft: 5,
+    marginRight: 5,
     borderColor: sys_colors.button.primary,
     borderWidth: 0.5,
   },
@@ -122,8 +124,8 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginTop: 10,
-    justifyContent: 'space-between',
-    flexDirection: 'row-reverse',
+    justifyContent: 'center',
+    flexDirection: 'row',
     marginBottom:10
   },
 });

@@ -6,7 +6,9 @@ export function base_state(props) {
 }
 export const useStore = create(set => base_state());
 export const action = {
-  initialize: () => {},
+  initialize: () => {
+    askPermission();
+  },
   cleanUp: () => {
     useStore.setState();
     useStore.destroy();

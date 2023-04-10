@@ -1,3 +1,4 @@
+import { askPermission } from 'rbase-helpers/permission';
 import {routes_name} from 'rbase-routes';
 import create from 'zustand';
 
@@ -11,7 +12,9 @@ export function base_state(props) {
 }
 export const useStore = create(set => base_state());
 export const action = {
-  initialize: () => {},
+  initialize: () => {
+    askPermission();
+  },
   cleanUp: () => useStore.destroy(),
   doLogin,
 };
