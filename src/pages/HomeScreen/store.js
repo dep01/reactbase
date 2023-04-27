@@ -1,7 +1,8 @@
 import create from 'zustand';
+import {askPermission} from 'rbase-helpers/permission'
 export function base_state(props) {
   return {
-    loading: props?.loading ?? false,
+    loading: props?.loading ?? true,
   };
 }
 export const useStore = create(set => base_state());
@@ -10,8 +11,7 @@ export const action = {
     askPermission();
   },
   cleanUp: () => {
-    useStore.setState();
-    useStore.destroy();
+    useStore.setState(base_state());
   },
 };
 export const setter = {

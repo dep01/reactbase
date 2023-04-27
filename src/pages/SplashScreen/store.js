@@ -1,8 +1,12 @@
 import create from 'zustand';
 import {routes_name} from 'rbase-routes';
-export const useStore = create(set => ({
-  loading: false,
-}));
+
+export function base_state(props) {
+  return {
+    loading: props?.loading ?? true,
+  };
+}
+export const useStore = create(set => base_state());
 export const action = {
   initialize: navigation => {
     setTimeout(() => {
@@ -10,8 +14,7 @@ export const action = {
     }, 2000);
   },
   cleanUp: () => {
-    useStore.setState();
-    useStore.destroy();
+    useStore.setState(base_state());
   },
 };
 export const setter = {

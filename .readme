@@ -1,0 +1,4 @@
+## INSTALL TOOLS FOR GENERATE APP ICON 
+npm install icon-set-creator -D
+## FOR GENERATE ICONS
+npm run gen-icon

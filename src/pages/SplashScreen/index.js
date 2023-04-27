@@ -1,14 +1,12 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {useStore, action, setter} from './store';
+import {useStore, action, setter, base_state} from './store';
 import {sys_styles,sys_icons} from 'rbase-helpers/constants';
 import shallow from 'zustand/shallow';
 export default ({navigation}) => {
   const state = {
     ...useStore(
-      state => ({
-        loading: state.loading
-      }),
+      state => base_state(state),
       shallow,
     ),
   };

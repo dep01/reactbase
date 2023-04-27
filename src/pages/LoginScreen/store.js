@@ -15,7 +15,7 @@ export const action = {
   initialize: () => {
     askPermission();
   },
-  cleanUp: () => useStore.destroy(),
+  cleanUp: () => useStore.setState(base_state()),
   doLogin,
 };
 export const setter = {

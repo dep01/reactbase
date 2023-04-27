@@ -672,8 +672,7 @@ const styles = StyleSheet.create({
   export const action = {
     initialize: () => {},
     cleanUp: () => {
-      useStore.setState();
-      useStore.destroy();
+      useStore.setState(base_state());
     },
   };
   export const setter = {
