@@ -1,10 +1,9 @@
 import {getSession, getToken} from 'rbase-helpers/session';
 import { SESSION } from './constants';
 // import {API_URL} from '@env';
-const API_URL = "http://139.180.155.53:8002/";
+const API_URL = "";
 
-// THIS IS BASEURL CHANGE WITH YOUR API URL EX.. https://jsonplaceholder.typicode.com/
-// const baseUrl = 'http://103.158.192.161:3000';
+// THIS IS BASEURL CHANGE WITH YOUR API URL EX.. https://jsonplaceholder.typicode.com
 // THIS IS DEFAULT CALLBACK, JUST CHANGE IT IF YOU HAVE ANOTHER DEFAULT
 const callbackModel = {
   code:503,
