@@ -7,7 +7,9 @@ var childFour = '';
 async function writeFile(dir, name, strFile, message) {
   fs.access(dir, function (error) {
     if (error) {
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, 0744);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, '0744');
+      }
       fs.access(`${dir}/${name}.js`, function (error) {
         if (error) {
           fs.writeFile(`${dir}/${name}.js`, strFile, function (error) {
@@ -43,9 +45,9 @@ async function writeFile(dir, name, strFile, message) {
   });
   return true;
 }
-async function model(fileJson, name,withProvider) {
+async function model(fileJson, name, withProvider) {
   var data = null;
-  var named = name +'Model';
+  var named = name + 'Model';
   try {
     data = require(`./src/data/${fileJson}`);
   } catch (error) {
@@ -71,17 +73,20 @@ async function model(fileJson, name,withProvider) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false
+      is_single: false,
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
-        if(Array.isArray(object[key])){ 
-          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+      if (Array.isArray(object[key]) || typeof object[key] === 'object') {
+        if (Array.isArray(object[key])) {
+          if (
+            !Array.isArray(object[key][0]) &&
+            typeof object[key][0] !== 'object'
+          ) {
             x.is_single = true;
-          }else{
+          } else {
             genmodelChildOne(object[key], key);
           }
-        }else{
+        } else {
           genmodelChildOne(object[key], key);
         }
       }
@@ -90,7 +95,7 @@ async function model(fileJson, name,withProvider) {
   });
   var forObject = '';
   console.log('generating object data...');
-  listKey.map((val) => {
+  listKey.map(val => {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -98,7 +103,7 @@ async function model(fileJson, name,withProvider) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
     } else if (Array.isArray(val.data) && val.is_single) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
-    } else if (typeof val.data == 'object') {
+    } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -115,7 +120,7 @@ async function model(fileJson, name,withProvider) {
 // const data = Convert.objectOf${named}(data)
 // FOR ARRAY
 // const data = Convert.listOf${named}(data)
-const modelOfData${named} = {${listKey.map((val) => {
+const modelOfData${named} = {${listKey.map(val => {
     const dataType =
       val.type == 'string'
         ? "''"
@@ -138,7 +143,7 @@ function listOf${named}(data = []) {
   listData = [];
   try {
     data.map((val) => {
-      var object = {${listKey.map((val) => {
+      var object = {${listKey.map(val => {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -146,7 +151,7 @@ function listOf${named}(data = []) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
         } else if (Array.isArray(val.data) && val.is_single) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data == 'object') {
+        } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -188,7 +193,7 @@ ${childFour}
     strFile,
     `file model saved to directory src/model/${named}.js`,
   );
-  if(withProvider){
+  if (withProvider) {
     await providers(name);
   }
 }
@@ -206,17 +211,20 @@ function genmodelChildOne(data, name) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false
+      is_single: false,
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
-        if(Array.isArray(object[key])){ 
-          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+      if (Array.isArray(object[key]) || typeof object[key] === 'object') {
+        if (Array.isArray(object[key])) {
+          if (
+            !Array.isArray(object[key][0]) &&
+            typeof object[key][0] !== 'object'
+          ) {
             x.is_single = true;
-          }else{
+          } else {
             genmodelChildTwo(object[key], key);
           }
-        }else{
+        } else {
           genmodelChildTwo(object[key], key);
         }
       }
@@ -225,7 +233,7 @@ function genmodelChildOne(data, name) {
   });
   var forObject = '';
   console.log('generating child model...');
-  listKey.map((val) => {
+  listKey.map(val => {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -233,7 +241,7 @@ function genmodelChildOne(data, name) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
     } else if (Array.isArray(val.data) && val.is_single) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
-    } else if (typeof val.data == 'object') {
+    } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -242,21 +250,21 @@ function genmodelChildOne(data, name) {
   });
 
   childOne += `
-const modelOfData${name} = {${listKey.map((val) => {
-  const dataType =
-    val.type == 'string'
-      ? "''"
-      : val.type == 'null'
-      ? null
-      : val.type == 'boolean'
-      ? false
-      : val.type == 'number'
-      ? 0
-      : Array.isArray(val.data) && !val.is_single
-      ? `[modelOfData${val.name}]`
-      : Array.isArray(val.data) && val.is_single
-      ? '[]'
-      : `modelOfData${val.name}`;
+const modelOfData${name} = {${listKey.map(val => {
+    const dataType =
+      val.type == 'string'
+        ? "''"
+        : val.type == 'null'
+        ? null
+        : val.type == 'boolean'
+        ? false
+        : val.type == 'number'
+        ? 0
+        : Array.isArray(val.data) && !val.is_single
+        ? `[modelOfData${val.name}]`
+        : Array.isArray(val.data) && val.is_single
+        ? '[]'
+        : `modelOfData${val.name}`;
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -268,7 +276,7 @@ function listOf${name}(data = []) {
   listData = [];
   try {
     data.map((val) => {
-      var object = {${listKey.map((val) => {
+      var object = {${listKey.map(val => {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -276,7 +284,7 @@ function listOf${name}(data = []) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
         } else if (Array.isArray(val.data) && val.is_single) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data == 'object') {
+        } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -320,17 +328,20 @@ function genmodelChildTwo(data, name) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false
+      is_single: false,
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
-        if(Array.isArray(object[key])){ 
-          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+      if (Array.isArray(object[key]) || typeof object[key] === 'object') {
+        if (Array.isArray(object[key])) {
+          if (
+            !Array.isArray(object[key][0]) &&
+            typeof object[key][0] !== 'object'
+          ) {
             x.is_single = true;
-          }else{
+          } else {
             genmodelChildThree(object[key], key);
           }
-        }else{
+        } else {
           genmodelChildThree(object[key], key);
         }
       }
@@ -339,7 +350,7 @@ function genmodelChildTwo(data, name) {
   });
   var forObject = '';
   console.log('generating child model...');
-  listKey.map((val) => {
+  listKey.map(val => {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -347,7 +358,7 @@ function genmodelChildTwo(data, name) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
     } else if (Array.isArray(val.data) && val.is_single) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
-    } else if (typeof val.data == 'object') {
+    } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -356,7 +367,7 @@ function genmodelChildTwo(data, name) {
   });
 
   childTwo += `
-const modelOfData${name} = {${listKey.map((val) => {
+const modelOfData${name} = {${listKey.map(val => {
     const dataType =
       val.type == 'string'
         ? "''"
@@ -382,7 +393,7 @@ function listOf${name}(data = []) {
   listData = [];
   try {
     data.map((val) => {
-      var object = {${listKey.map((val) => {
+      var object = {${listKey.map(val => {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -390,7 +401,7 @@ function listOf${name}(data = []) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
         } else if (Array.isArray(val.data) && val.is_single) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data == 'object') {
+        } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -433,17 +444,20 @@ function genmodelChildThree(data, name) {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false
+      is_single: false,
     };
     if (object[key] != null) {
-      if (Array.isArray(object[key]) || typeof object[key] == 'object') { 
-        if(Array.isArray(object[key])){ 
-          if(!Array.isArray(object[key][0]) && typeof object[key][0] != 'object'){
+      if (Array.isArray(object[key]) || typeof object[key] === 'object') {
+        if (Array.isArray(object[key])) {
+          if (
+            !Array.isArray(object[key][0]) &&
+            typeof object[key][0] !== 'object'
+          ) {
             x.is_single = true;
-          }else{
+          } else {
             genmodelChildFour(object[key], key);
           }
-        }else{
+        } else {
           genmodelChildFour(object[key], key);
         }
       }
@@ -452,7 +466,7 @@ function genmodelChildThree(data, name) {
   });
   var forObject = '';
   console.log('generating child model...');
-  listKey.map((val) => {
+  listKey.map(val => {
     var str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -460,7 +474,7 @@ function genmodelChildThree(data, name) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
     } else if (Array.isArray(val.data) && val.is_single) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
-    } else if (typeof val.data == 'object') {
+    } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
     } else {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
@@ -469,21 +483,21 @@ function genmodelChildThree(data, name) {
   });
 
   childThree += `
-const modelOfData${name} = {${listKey.map((val) => {
-  const dataType =
-    val.type == 'string'
-      ? "''"
-      : val.type == 'null'
-      ? null
-      : val.type == 'boolean'
-      ? false
-      : val.type == 'number'
-      ? 0
-      : Array.isArray(val.data) && !val.is_single
-      ? `[modelOfData${val.name}]`
-      : Array.isArray(val.data) && val.is_single
-      ? '[]'
-      : `modelOfData${val.name}`;
+const modelOfData${name} = {${listKey.map(val => {
+    const dataType =
+      val.type == 'string'
+        ? "''"
+        : val.type == 'null'
+        ? null
+        : val.type == 'boolean'
+        ? false
+        : val.type == 'number'
+        ? 0
+        : Array.isArray(val.data) && !val.is_single
+        ? `[modelOfData${val.name}]`
+        : Array.isArray(val.data) && val.is_single
+        ? '[]'
+        : `modelOfData${val.name}`;
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -495,7 +509,7 @@ function listOf${name}(data = []) {
   listData = [];
   try {
     data.map((val) => {
-      var object = {${listKey.map((val) => {
+      var object = {${listKey.map(val => {
         var str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -503,7 +517,7 @@ function listOf${name}(data = []) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
         } else if (Array.isArray(val.data) && val.is_single) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data == 'object') {
+        } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
         } else {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
@@ -551,14 +565,14 @@ function genmodelChildFour(data, name) {
   });
   var forObject = '';
   console.log('generating child model...');
-  listKey.map((val) => {
+  listKey.map(val => {
     const str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
 
     forObject += str;
   });
 
   childFour += `
-const modelOfData${name} = {${listKey.map((val) => {
+const modelOfData${name} = {${listKey.map(val => {
     const dataType =
       val.type == 'string'
         ? "''"
@@ -569,8 +583,8 @@ const modelOfData${name} = {${listKey.map((val) => {
         : val.type == 'number'
         ? 0
         : Array.isArray(val.data)
-        ? `[]`
-        : `{}`;
+        ? '[]'
+        : '{}';
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -582,7 +596,7 @@ function listOf${name}(data = []) {
   listData = [];
   try {
     data.map((val) => {
-      var object = {${listKey.map((val) => {
+      var object = {${listKey.map(val => {
         const str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
 
         return str;
@@ -611,20 +625,27 @@ function objectOf${name}(data = null) {
   }
 }
 async function view(name) {
-  const dir = `./src/view/${name}`;
+  const dir = `./src/pages/${name}`;
   console.log('generating view...');
   const strView = `import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {view} from '@risingstack/react-easy-state';
-import {sys_colors, sys_styles, sys_text_styles} from '../../utils/constants';
-import * as store from './store';
-export default view(({navigation}) => {
-  useEffect(() => {
-    store.initialized();
-    return () => {
-      store.cleanUp();
-    };
-  }, [navigation, store]);
+import shallow from 'zustand/shallow';
+import {sys_colors, sys_styles, sys_text_styles} from 'rbase-helpers/constants';
+import {action,setter,useStore,base_state} from './store';
+export default ({navigation}) => {
+  const state = {
+    ...useStore(
+      state => (base_state(state)),
+      shallow,
+    ),
+  };
+
+useEffect(() => {
+  action.initialize();
+  return () => {
+    action.cleanUp();
+  };
+}, [navigation, action]);
   return (
     <View style={sys_styles.scaffold}>
       <View style={sys_styles.container_center_screen}>
@@ -632,7 +653,7 @@ export default view(({navigation}) => {
       </View>
     </View>
   );
-});
+};
 const styles = StyleSheet.create({
   titleText: {
     ...sys_text_styles.header_medium_black,
@@ -641,24 +662,30 @@ const styles = StyleSheet.create({
   `;
   await writeFile(dir, 'index', strView, 'view successfully generated..');
   console.log('generating store...');
-  const strStore = `import {store} from '@risingstack/react-easy-state';
-export const state = store({
-  loading: false,
-});
-export async function initialized() {
-  state.loading = true;
-}
-export function cleanUp() {
-  state.loading = false;
-}
+  const strStore = `import create from 'zustand';
+  export function base_state (props) {
+      return {
+        loading: props?.loading??false
+      }
+  }
+  export const useStore = create(set => (base_state()));
+  export const action = {
+    initialize: () => {},
+    cleanUp: () => {
+      useStore.setState(base_state());
+    },
+  };
+  export const setter = {
+    loading: (value = false) => useStore.setState({loading: value}),
+  };
 `;
-  writeFile(dir, `store`, strStore, 'store successfully generated..');
+  writeFile(dir, 'store', strStore, 'store successfully generated..');
 }
-async function providers(name){
+async function providers(name) {
   console.log('generating provider...');
   const named = name + 'Provider';
-  const str = `import Convert from '../model/${name}Model.js';
-import {sys_get,sys_post,sys_put,sys_del} from '../utils/api_client';
+  const str = `import Convert from '@/model/${name}Model.js';
+import {sys_get,sys_post,sys_put,sys_del} from '@/utils/api_client';
 
 const uri = '${name}/'
 export async function getAll(){

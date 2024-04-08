@@ -1,4 +1,8 @@
-import Numpad from './numpad';
-export * from './atom';
-export * from './molecul';
-export {Numpad};
+'use strict';
+import * as atoms from './atoms';
+import * as molecules from './molecules';
+
+module.exports ={
+    atoms,
+    molecules
+}

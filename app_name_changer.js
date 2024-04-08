@@ -4,7 +4,9 @@ var rimraf = require('rimraf');
 async function write_file(dir, name, strFile, ext, message) {
   fs.access(dir, function (error) {
     if (error) {
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, 0744);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, '0744');
+      }
       fs.access(`${dir}/${name}.${ext}`, function (error) {
         if (error) {
           fs.writeFile(`${dir}/${name}.${ext}`, strFile, function (error) {
@@ -41,22 +43,22 @@ async function write_file(dir, name, strFile, ext, message) {
   return true;
 }
 async function delete_file() {
-  fs.unlinkSync('app.json', (err) => {
+  fs.unlinkSync('app.json', err => {
     if (err) {
       console.log(err.message);
     }
   });
-  fs.unlinkSync('android/app/src/main/AndroidManifest.xml', (err) => {
+  fs.unlinkSync('android/app/src/main/AndroidManifest.xml', err => {
     if (err) {
       console.log(err.message);
     }
   });
-  fs.unlinkSync('android/app/src/main/res/values/strings.xml', (err) => {
+  fs.unlinkSync('android/app/src/main/res/values/strings.xml', err => {
     if (err) {
       console.log(err.message);
     }
   });
-  fs.unlinkSync('android/app/build.gradle', (err) => {
+  fs.unlinkSync('android/app/build.gradle', err => {
     if (err) {
       console.log(err.message);
     }
@@ -65,7 +67,7 @@ async function delete_file() {
 async function gen_java_module(name) {
   try {
     rimraf('android/app/src/main/java/com/', async function () {
-      fs.mkdirSync('android/app/src/main/java/com/', 0744);
+      fs.mkdirSync('android/app/src/main/java/com/', '0744');
       var main_activity = `package com.${name};
 import com.facebook.react.ReactActivity;
 
