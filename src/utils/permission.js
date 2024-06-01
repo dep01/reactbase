@@ -1,13 +1,12 @@
 import {
-  request,
   PERMISSIONS,
   check,
   requestMultiple,
-  checkMultiple,
   RESULTS,
 } from 'react-native-permissions';
 import {Platform} from 'react-native';
 
+// define permission per OS
 const list_android_permission = [
   PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
   PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
@@ -21,16 +20,24 @@ const list_ios_permission = [
 ];
 
 export async function askPermission() {
+  // check os for list permissons
   const permissions =
     Platform.OS == 'android' ? list_android_permission : list_ios_permission;
+
+  // init permission list denied or blocked
   let list_permission_ned_to_ask = [];
-  for (let index = 0; index < permissions.length; index++) {
-    const result = await check(permissions[index]);
-    if (result == RESULTS.DENIED) {
-      list_permission_ned_to_ask.push(permissions[index]);
-    } else if (result == RESULTS.BLOCKED) {
-      list_permission_ned_to_ask.push(permissions[index]);
+
+  // loop the permission needed to ask
+  for (let permission of permissions) {
+    // check the permission status
+    const result = await check(permission);
+
+    // if permission denied or blocked push to list permission need to ask
+    if (result == RESULTS.DENIED || result == RESULTS.BLOCKED) {
+      list_permission_ned_to_ask.push(permission);
     }
+
+    // request permission again
+    requestMultiple(list_permission_ned_to_ask);
   }
-  requestMultiple(list_permission_ned_to_ask);
 }

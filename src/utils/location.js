@@ -1,6 +1,6 @@
 import Geolocation from '@react-native-community/geolocation';
 import {SESSION} from './constants';
-import {setSession} from './session';
+import {setSession} from 'rbase-utils/session';
 
 export const getPosition = async () => {
   const config = {

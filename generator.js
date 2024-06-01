@@ -1,9 +1,73 @@
 const fs = require('fs');
 
-var childOne = '';
-var childTwo = '';
-var childThree = '';
-var childFour = '';
+let childOne = '';
+let childTwo = '';
+let childThree = '';
+let childFour = '';
+
+function checkDataType({type = '', name = '', isSingle = false, data}) {
+  // type is string set default ''
+  if (type == 'string') {
+    return "''";
+  }
+
+  // type is null set default null
+  if (type == 'null') {
+    return null;
+  }
+
+  // type is boolean set default false
+  if (type == 'boolean') {
+    return false;
+  }
+
+  // type is number set default 0
+  if (type == 'number') {
+    return 0;
+  }
+
+  // type is array model set default [arrayModel]
+  if (Array.isArray(data) && !isSingle) {
+    return `[modelOfData${name}]`;
+  }
+
+  // type is array set default []
+  if (Array.isArray(data) && isSingle) {
+    return '[]';
+  }
+
+  return `modelOfData${name}`;
+}
+
+function checkDataTypeLastChild({type = '', name = '', data}) {
+  // type is string set default ''
+  if (type == 'string') {
+    return "''";
+  }
+
+  // type is null set default null
+  if (type == 'null') {
+    return null;
+  }
+
+  // type is boolean set default false
+  if (type == 'boolean') {
+    return false;
+  }
+
+  // type is number set default 0
+  if (type == 'number') {
+    return 0;
+  }
+
+  // type is array set default []
+  if (Array.isArray(data)) {
+    return '[]';
+  }
+
+  return `{}`;
+}
+
 async function writeFile(dir, name, strFile, message) {
   fs.access(dir, function (error) {
     if (error) {
@@ -46,8 +110,8 @@ async function writeFile(dir, name, strFile, message) {
   return true;
 }
 async function model(fileJson, name, withProvider) {
-  var data = null;
-  var named = name + 'Model';
+  let data = null;
+  let named = name + 'Model';
   try {
     data = require(`./src/data/${fileJson}`);
   } catch (error) {
@@ -61,19 +125,20 @@ async function model(fileJson, name, withProvider) {
     return false;
   }
   console.log('generating model...');
-  var object = {};
-  var listKey = [];
+  let object = {};
+  let listKey = [];
   if (!Array.isArray(data)) {
     object = data;
   } else {
     object = data[0];
   }
-  Object.keys(object).map((key, index) => {
+
+  for (let key of Object.keys(object)) {
     const x = {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false,
+      isSingle: false,
     };
     if (object[key] != null) {
       if (Array.isArray(object[key]) || typeof object[key] === 'object') {
@@ -82,7 +147,7 @@ async function model(fileJson, name, withProvider) {
             !Array.isArray(object[key][0]) &&
             typeof object[key][0] !== 'object'
           ) {
-            x.is_single = true;
+            x.isSingle = true;
           } else {
             genmodelChildOne(object[key], key);
           }
@@ -92,16 +157,16 @@ async function model(fileJson, name, withProvider) {
       }
     }
     listKey.push(x);
-  });
-  var forObject = '';
+  }
+  let forObject = '';
   console.log('generating object data...');
   listKey.map(val => {
-    var str = '';
+    let str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data) && !val.is_single) {
+    } else if (Array.isArray(val.data) && !val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
-    } else if (Array.isArray(val.data) && val.is_single) {
+    } else if (Array.isArray(val.data) && val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
@@ -109,9 +174,10 @@ async function model(fileJson, name, withProvider) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
     }
     forObject += str;
+    return true;
   });
   console.log('generating list data...');
-  var strFile = `// HOW TO IMPORT ?
+  let strFile = `// HOW TO IMPORT ?
 // const Convert = require('location/${named}.js'); 
 // OR
 // import Convert from 'location/${named}.js'
@@ -121,35 +187,27 @@ async function model(fileJson, name, withProvider) {
 // FOR ARRAY
 // const data = Convert.listOf${named}(data)
 const modelOfData${named} = {${listKey.map(val => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data) && !val.is_single
-        ? `[modelOfData${val.name}]`
-        : Array.isArray(val.data) && val.is_single
-        ? '[]'
-        : `modelOfData${val.name}`;
+    const dataType = checkDataType({
+      type: val.type,
+      data: val.data,
+      isSingle: val.isSingle,
+      name: val.name,
+    });
     return `\n\t${val.name}: ${dataType}`;
   })}
 };
 function listOf${named}(data = []) {
-  var listData = [modelOfData${named}];
+  let listData = [modelOfData${named}];
   listData = [];
   try {
-    data.map((val) => {
-      var object = {${listKey.map(val => {
-        var str = '';
+    for (let val of data) {
+      let object = {${listKey.map(val => {
+        let str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.is_single) {
+        } else if (Array.isArray(val.data) && !val.isSingle) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.is_single) {
+        } else if (Array.isArray(val.data) && val.isSingle) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
@@ -160,14 +218,14 @@ function listOf${named}(data = []) {
       })}
       };
       listData.push(object);
-    });
+    };
   } catch (error) {
     console.log(error.message);
   }
   return listData;
 }
 function objectOf${named}(data = null) {
-  var objectData = modelOfData${named};
+  let objectData = modelOfData${named};
   if (data == null) {
     return null;
   }
@@ -199,19 +257,19 @@ ${childFour}
 }
 
 function genmodelChildOne(data, name) {
-  var object = {};
-  var listKey = [];
+  let object = {};
+  let listKey = [];
   if (!Array.isArray(data)) {
     object = data;
   } else {
     object = data[0];
   }
-  Object.keys(object).map((key, index) => {
+  for (let key of Object.keys(object)) {
     const x = {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false,
+      isSingle: false,
     };
     if (object[key] != null) {
       if (Array.isArray(object[key]) || typeof object[key] === 'object') {
@@ -220,7 +278,7 @@ function genmodelChildOne(data, name) {
             !Array.isArray(object[key][0]) &&
             typeof object[key][0] !== 'object'
           ) {
-            x.is_single = true;
+            x.isSingle = true;
           } else {
             genmodelChildTwo(object[key], key);
           }
@@ -230,16 +288,16 @@ function genmodelChildOne(data, name) {
       }
     }
     listKey.push(x);
-  });
-  var forObject = '';
+  }
+  let forObject = '';
   console.log('generating child model...');
-  listKey.map(val => {
-    var str = '';
+  for (let val of listKey) {
+    let str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data) && !val.is_single) {
+    } else if (Array.isArray(val.data) && !val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
-    } else if (Array.isArray(val.data) && val.is_single) {
+    } else if (Array.isArray(val.data) && val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
@@ -247,24 +305,16 @@ function genmodelChildOne(data, name) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
     }
     forObject += str;
-  });
+  }
 
   childOne += `
 const modelOfData${name} = {${listKey.map(val => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data) && !val.is_single
-        ? `[modelOfData${val.name}]`
-        : Array.isArray(val.data) && val.is_single
-        ? '[]'
-        : `modelOfData${val.name}`;
+    const dataType = checkDataType({
+      type: val.type,
+      data: val.data,
+      isSingle: val.isSingle,
+      name: val.name,
+    });
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -272,17 +322,17 @@ const modelOfData${name} = {${listKey.map(val => {
   if (Array.isArray(data)) {
     childOne += `
 function listOf${name}(data = []) {
-  var listData = [modelOfData${name}];
+  let listData = [modelOfData${name}];
   listData = [];
   try {
-    data.map((val) => {
-      var object = {${listKey.map(val => {
-        var str = '';
+    for(let val of data) {
+      let object = {${listKey.map(val => {
+        let str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.is_single) {
+        } else if (Array.isArray(val.data) && !val.isSingle) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.is_single) {
+        } else if (Array.isArray(val.data) && val.isSingle) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
@@ -293,7 +343,7 @@ function listOf${name}(data = []) {
       })}
       };
       listData.push(object);
-    });
+    };
   } catch (error) {
     console.log(error.message);
   }
@@ -302,7 +352,7 @@ function listOf${name}(data = []) {
   } else {
     childOne += `
 function objectOf${name}(data = null) {
-  var objectData = modelOfData${name};
+  let objectData = modelOfData${name};
   if (data == null) {
     return null;
   }
@@ -316,19 +366,19 @@ function objectOf${name}(data = null) {
 }
 
 function genmodelChildTwo(data, name) {
-  var object = {};
-  var listKey = [];
+  let object = {};
+  let listKey = [];
   if (!Array.isArray(data)) {
     object = data;
   } else {
     object = data[0];
   }
-  Object.keys(object).map((key, index) => {
+  for (let key of Object.keys(object)) {
     const x = {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false,
+      isSingle: false,
     };
     if (object[key] != null) {
       if (Array.isArray(object[key]) || typeof object[key] === 'object') {
@@ -337,7 +387,7 @@ function genmodelChildTwo(data, name) {
             !Array.isArray(object[key][0]) &&
             typeof object[key][0] !== 'object'
           ) {
-            x.is_single = true;
+            x.isSingle = true;
           } else {
             genmodelChildThree(object[key], key);
           }
@@ -347,16 +397,16 @@ function genmodelChildTwo(data, name) {
       }
     }
     listKey.push(x);
-  });
-  var forObject = '';
+  }
+  let forObject = '';
   console.log('generating child model...');
-  listKey.map(val => {
-    var str = '';
+  for (let val of listKey) {
+    let str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data) && !val.is_single) {
+    } else if (Array.isArray(val.data) && !val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
-    } else if (Array.isArray(val.data) && val.is_single) {
+    } else if (Array.isArray(val.data) && val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
@@ -364,24 +414,16 @@ function genmodelChildTwo(data, name) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
     }
     forObject += str;
-  });
+  }
 
   childTwo += `
 const modelOfData${name} = {${listKey.map(val => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data) && !val.is_single
-        ? `[modelOfData${val.name}]`
-        : Array.isArray(val.data) && val.is_single
-        ? '[]'
-        : `modelOfData${val.name}`;
+    const dataType = checkDataType({
+      type: val.type,
+      data: val.data,
+      isSingle: val.isSingle,
+      name: val.name,
+    });
     return `\n\t${val.name}: ${dataType}`;
   })}
 }`;
@@ -389,17 +431,17 @@ const modelOfData${name} = {${listKey.map(val => {
   if (Array.isArray(data)) {
     childTwo += `
 function listOf${name}(data = []) {
-  var listData = [modelOfData${name}];
+  let listData = [modelOfData${name}];
   listData = [];
   try {
-    data.map((val) => {
-      var object = {${listKey.map(val => {
-        var str = '';
+    for(let val of data){
+      let object = {${listKey.map(val => {
+        let str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.is_single) {
+        } else if (Array.isArray(val.data) && !val.isSingle) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.is_single) {
+        } else if (Array.isArray(val.data) && val.isSingle) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
@@ -410,7 +452,7 @@ function listOf${name}(data = []) {
       })}
       };
       listData.push(object);
-    });
+    };
   } catch (error) {
     console.log(error.message);
   }
@@ -419,7 +461,7 @@ function listOf${name}(data = []) {
   } else {
     childTwo += `
 function objectOf${name}(data = null) {
-  var objectData = modelOfData${name};
+  let objectData = modelOfData${name};
   if (data == null) {
     return null;
   };
@@ -432,19 +474,19 @@ function objectOf${name}(data = null) {
   }
 }
 function genmodelChildThree(data, name) {
-  var object = {};
-  var listKey = [];
+  let object = {};
+  let listKey = [];
   if (!Array.isArray(data)) {
     object = data;
   } else {
     object = data[0];
   }
-  Object.keys(object).map((key, index) => {
+  for (let key of Object.keys(object)) {
     const x = {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
-      is_single: false,
+      isSingle: false,
     };
     if (object[key] != null) {
       if (Array.isArray(object[key]) || typeof object[key] === 'object') {
@@ -453,7 +495,7 @@ function genmodelChildThree(data, name) {
             !Array.isArray(object[key][0]) &&
             typeof object[key][0] !== 'object'
           ) {
-            x.is_single = true;
+            x.isSingle = true;
           } else {
             genmodelChildFour(object[key], key);
           }
@@ -463,16 +505,16 @@ function genmodelChildThree(data, name) {
       }
     }
     listKey.push(x);
-  });
-  var forObject = '';
+  }
+  let forObject = '';
   console.log('generating child model...');
-  listKey.map(val => {
-    var str = '';
+  for (let val of listKey) {
+    let str = '';
     if (val.data == null) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
-    } else if (Array.isArray(val.data) && !val.is_single) {
+    } else if (Array.isArray(val.data) && !val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = listOf${val.name}(data.${val.name} ?? []);`;
-    } else if (Array.isArray(val.data) && val.is_single) {
+    } else if (Array.isArray(val.data) && val.isSingle) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? [];`;
     } else if (typeof val.data === 'object') {
       str = `\n\t\tobjectData.${val.name} = objectOf${val.name}(data.${val.name} ?? null);`;
@@ -480,24 +522,16 @@ function genmodelChildThree(data, name) {
       str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
     }
     forObject += str;
-  });
+  }
 
   childThree += `
 const modelOfData${name} = {${listKey.map(val => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data) && !val.is_single
-        ? `[modelOfData${val.name}]`
-        : Array.isArray(val.data) && val.is_single
-        ? '[]'
-        : `modelOfData${val.name}`;
+    const dataType = checkDataType({
+      type: val.type,
+      data: val.data,
+      isSingle: val.isSingle,
+      name: val.name,
+    });
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -505,17 +539,17 @@ const modelOfData${name} = {${listKey.map(val => {
   if (Array.isArray(data)) {
     childThree += `
 function listOf${name}(data = []) {
-  var listData = [modelOfData${name}];
+  let listData = [modelOfData${name}];
   listData = [];
   try {
-    data.map((val) => {
-      var object = {${listKey.map(val => {
-        var str = '';
+    for(let val of data) {
+      let object = {${listKey.map(val => {
+        let str = '';
         if (val.data == null) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.is_single) {
+        } else if (Array.isArray(val.data) && !val.isSingle) {
           str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.is_single) {
+        } else if (Array.isArray(val.data) && val.isSingle) {
           str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
         } else if (typeof val.data === 'object') {
           str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
@@ -535,7 +569,7 @@ function listOf${name}(data = []) {
   } else {
     childThree += `
 function objectOf${name}(data = null) {
-  var objectData = modelOfData${name};
+  let objectData = modelOfData${name};
   if (data == null) {
     return null;
   };
@@ -548,43 +582,36 @@ function objectOf${name}(data = null) {
   }
 }
 function genmodelChildFour(data, name) {
-  var object = {};
-  var listKey = [];
+  let object = {};
+  let listKey = [];
   if (!Array.isArray(data)) {
     object = data;
   } else {
     object = data[0];
   }
-  Object.keys(object).map((key, index) => {
+  for (let key of Object.keys(object)) {
     const x = {
       name: key,
       type: object[key] == null ? 'null' : typeof object[key],
       data: object[key],
     };
     listKey.push(x);
-  });
-  var forObject = '';
+  }
+  let forObject = '';
   console.log('generating child model...');
-  listKey.map(val => {
+  for (let val of listKey) {
     const str = `\n\t\tobjectData.${val.name} = data.${val.name} ?? null;`;
 
     forObject += str;
-  });
+  }
 
   childFour += `
 const modelOfData${name} = {${listKey.map(val => {
-    const dataType =
-      val.type == 'string'
-        ? "''"
-        : val.type == 'null'
-        ? null
-        : val.type == 'boolean'
-        ? false
-        : val.type == 'number'
-        ? 0
-        : Array.isArray(val.data)
-        ? '[]'
-        : '{}';
+    const dataType = checkDataTypeLastChild({
+      type: val.type,
+      data: val.data,
+      name: val.name,
+    });
     return `\n\t${val.name}: ${dataType}`;
   })}
 };`;
@@ -592,18 +619,18 @@ const modelOfData${name} = {${listKey.map(val => {
   if (Array.isArray(data)) {
     childFour += `
 function listOf${name}(data = []) {
-  var listData = [modelOfData${name}];
+  let listData = [modelOfData${name}];
   listData = [];
   try {
-    data.map((val) => {
-      var object = {${listKey.map(val => {
+    for (let val of data){
+      let object = {${listKey.map(val => {
         const str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
 
         return str;
       })}
       };
       listData.push(object);
-    });
+    };
   } catch (error) {
     console.log(error.message);
   }
@@ -612,7 +639,7 @@ function listOf${name}(data = []) {
   } else {
     childFour += `
 function objectOf${name}(data = null) {
-  var objectData = modelOfData${name};
+  let objectData = modelOfData${name};
   if (data == null) {
     return null;
   };
