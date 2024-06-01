@@ -246,10 +246,10 @@ ${childFour}
   `;
   console.log('generating file model...');
   await writeFile(
-    './src/model',
+    './src/models',
     named,
     strFile,
-    `file model saved to directory src/model/${named}.js`,
+    `file model saved to directory src/models/${named}.js`,
   );
   if (withProvider) {
     await providers(name);
