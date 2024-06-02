@@ -32,13 +32,23 @@ const initHeader = async ({auth = false, isRefresh = false}) => {
   return header;
 };
 
+const bodyParser = (data, response = new Response()) => {
+  // init response model
+  let resp = responseModel;
+
+  // assign response
+  resp.code = response.status;
+  resp.success = data.success;
+  resp.message = data.message;
+  resp.data = data.data;
+
+  return resp;
+};
+
 // handling get method
 export const get = async ({auth = false, endpoint = ''}) => {
   // init header
   const header = await initHeader({auth: auth});
-
-  // init response
-  let resp = responseModel;
 
   // hit endpoint get
   const response = await fetch(API_URL + endpoint, {
@@ -49,11 +59,8 @@ export const get = async ({auth = false, endpoint = ''}) => {
   // parse json response
   const data = await response.json();
 
-  // assign response
-  resp.code = response.status;
-  resp.success = data.success;
-  resp.message = data.message;
-  resp.data = data.data;
+  // parsing response
+  const resp = bodyParser(data, response);
 
   // check response status
   if (response.status > 201 && response.status < 200) {
@@ -68,9 +75,6 @@ export const post = async ({auth = false, endpoint = '', body = {}}) => {
   // init header
   const header = await initHeader({auth: auth});
 
-  // init response
-  let resp = responseModel;
-
   // hit endpoint post
   const response = await fetch(API_URL + endpoint, {
     method: 'POST',
@@ -81,11 +85,8 @@ export const post = async ({auth = false, endpoint = '', body = {}}) => {
   // parse json response
   const data = await response.json();
 
-  // assign response
-  resp.code = response.status;
-  resp.success = data.success;
-  resp.message = data.message;
-  resp.data = data.data;
+  // parsing response
+  const resp = bodyParser(data, response);
 
   // check response status
   if (response.status > 201 && response.status < 200) {
@@ -100,9 +101,6 @@ export const del = async ({auth = false, endpoint = ''}) => {
   // init header
   const header = await initHeader({auth: auth});
 
-  // init response
-  let resp = responseModel;
-
   // hit endpoint delete
   const response = await fetch(API_URL + endpoint, {
     method: 'DELETE',
@@ -112,11 +110,8 @@ export const del = async ({auth = false, endpoint = ''}) => {
   // parse json response
   const data = await response.json();
 
-  // assign response
-  resp.code = response.status;
-  resp.success = data.success;
-  resp.message = data.message;
-  resp.data = data.data;
+  // parsing response
+  const resp = bodyParser(data, response);
 
   // check response status
   if (response.status > 201 && response.status < 200) {
@@ -136,9 +131,6 @@ export const put = async ({
   // init header
   const header = await initHeader({auth: auth, isRefresh});
 
-  // init response
-  let resp = responseModel;
-
   // hit endpoint put
   const response = await fetch(API_URL + endpoint, {
     method: 'PUT',
@@ -149,11 +141,8 @@ export const put = async ({
   // parse json response
   const data = await response.json();
 
-  // assign response
-  resp.code = response.status;
-  resp.success = data.success;
-  resp.message = data.message;
-  resp.data = data.data;
+  // parsing response
+  const resp = bodyParser(data, response);
 
   // check response status
   if (response.status > 201 && response.status < 200) {
