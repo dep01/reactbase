@@ -1,61 +1,67 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {sys_colors, sys_font} from 'rbase-helpers/constants';
-export const CustomInput = ({
-  label = '',
-  left = null,
-  right = null,
-  containerStyle = {},
-  inputStyle = {},
-  labelStyle = {},
-  containerText = {},
+import {
+  backgroundColorsConstant,
+  textColorsConstant,
+} from 'rbase-constants/colors_constant';
+import {fontFamilyConstant} from 'rbase-constants/fonts_constant';
+
+const customInputPayload = {
+  label: '',
+  left: null,
+  right: null,
+  containerStyle: {},
+  inputStyle: {},
+  labelStyle: {},
+  containerText: {},
   onChangeText,
   secureTextEntry,
   keyboardType,
-  placeholder = '',
-  value = '',
-  maxLength = 30,
-  numberOfLines = 1,
-}) => {
+  placeholder: '',
+  value: '',
+  maxLength: 30,
+  numberOfLines: 1,
+};
+export const CustomInput = (payload = customInputPayload) => {
   return (
-    <View style={[styles.container, containerStyle]}>
-      {label != '' ? (
-        <Text style={[styles.labelStyle, labelStyle]}>
-          {label.toUpperCase()}
+    <View style={[styles.container, payload.containerStyle]}>
+      {payload.label != '' ? (
+        <Text style={[styles.labelStyle, payload.labelStyle]}>
+          {payload.label.toUpperCase()}
         </Text>
       ) : null}
-      <View style={[styles.containerText, containerText]}>
-        {left != null ? (
+      <View style={[styles.containerText, payload.containerText]}>
+        {payload.left != null ? (
           <View
             style={{
               width: '15%',
-              backgroundColor: sys_colors.textInput,
+              backgroundColor: textColorsConstant.input,
             }}>
-            {left}
+            {payload.left}
           </View>
         ) : null}
 
         <TextInput
           style={[
             styles.inputStyle,
-            {paddingLeft: left != null ? 5 : 15},
-            inputStyle,
+            {paddingLeft: payload.left != null ? 5 : 15},
+            payload.inputStyle,
           ]}
-          onChangeText={onChangeText}
-          secureTextEntry={secureTextEntry}
-          keyboardType={keyboardType}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          numberOfLines={numberOfLines}
-          value={value}
+          onChangeText={payload.onChangeText}
+          secureTextEntry={payload.secureTextEntry}
+          keyboardType={payload.keyboardType}
+          placeholder={payload.placeholder}
+          maxLength={payload.maxLength}
+          numberOfLines={payload.numberOfLines}
+          value={payload.value}
         />
-        {right != null ? (
+        {payload.right != null ? (
           <View
             style={{
               width: '15%',
-              backgroundColor: sys_colors.textInput,
+              backgroundColor: textColorsConstant.input,
             }}>
-            {right}
+            {payload.right}
           </View>
         ) : null}
       </View>
@@ -71,21 +77,21 @@ const styles = StyleSheet.create({
   containerText: {
     flexDirection: 'row',
     width: '100%',
-    backgroundColor: sys_colors.primary,
+    backgroundColor: backgroundColorsConstant.primary,
     marginTop: 15,
   },
   labelStyle: {
-    color: sys_colors.text.label,
+    color: textColorsConstant.label,
     fontSize: 14,
-    fontFamily: sys_font.primary[400],
+    fontFamily: fontFamilyConstant.primary[400],
   },
   inputStyle: {
-    backgroundColor: sys_colors.textInput,
+    backgroundColor: textColorsConstant.input,
     paddingLeft: 30,
     fontSize: 14,
     flex: 1,
     minWidth: '70%',
-    color: sys_colors.text.primary,
-    fontFamily: sys_font.primary[400],
+    color: textColorsConstant.primary,
+    fontFamily: fontFamilyConstant.primary[400],
   },
 });

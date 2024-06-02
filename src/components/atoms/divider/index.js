@@ -1,29 +1,31 @@
-import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import {sys_colors} from 'rbase-helpers/constants';
+import React from 'react';
+import {View} from 'react-native';
+import {borderColorsConstant} from 'rbase-constants/colors_constant';
 
-export const Divider = ({
-  color = sys_colors.line.primary,
-  height = 10,
-  width = '100%',
-  align = 'center',
-  lineHeight = 0.5,
-}) => {
+const dividerPayload = {
+  color: borderColorsConstant.primary,
+  height: 10,
+  width: '100%',
+  align: 'center',
+  lineHeight: 0.5,
+};
+
+export const Divider = (payload = dividerPayload) => {
   return (
     <View
       style={{
-        height: height,
-        width: width,
+        height: payload.height,
+        width: payload.width,
         backgroundColor: 'transparent',
         alignItems: 'center',
-        alignSelf: align,
+        alignSelf: payload.align,
       }}>
       <View
         style={{
-          height: height / 2 + lineHeight,
+          height: payload.height / 2 + payload.lineHeight,
           width: '100%',
-          borderBottomColor: color,
-          borderBottomWidth: lineHeight,
+          borderBottomColor: payload.color,
+          borderBottomWidth: payload.lineHeight,
           position: 'absolute',
           top: 0,
         }}
@@ -31,7 +33,7 @@ export const Divider = ({
 
       <View
         style={{
-          height: height / 2 - lineHeight,
+          height: payload.height / 2 - payload.lineHeight,
           width: '100%',
           position: 'absolute',
           bottom: 0,
@@ -40,4 +42,3 @@ export const Divider = ({
     </View>
   );
 };
-const styles = StyleSheet.create({});

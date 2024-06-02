@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ActivityIndicator, Text, StyleSheet} from 'react-native';
-import create from 'zustand';
+import {create} from 'zustand';
 
 const loadingStore = create(set => ({
   loading: false,

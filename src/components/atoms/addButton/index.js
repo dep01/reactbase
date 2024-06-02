@@ -1,21 +1,23 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {sys_colors} from 'rbase-helpers/constants';
+import {iconColorsConstant} from 'rbase-constants/colors_constant';
 import {useNavigation} from '@react-navigation/native';
-export const AddButton = ({
-  onPress,
-  iconName = 'add',
-  color = sys_colors.text.white,
-  size = 24,
-  style = {},
-}) => {
+
+const addButtonPayload = {
+  onPress: null,
+  iconName: 'add',
+  color: iconColorsConstant.primary,
+  size: 24,
+  style: {},
+};
+export const AddButton = (payload = addButtonPayload) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={onPress ? onPress : () => navigation.goBack()}
-      style={[styles.button, style]}>
-      <Icon name={iconName} color={color} size={size} />
+      onPress={payload.onPress ? payload.onPress : () => navigation.goBack()}
+      style={[styles.button, payload.style]}>
+      <Icon name={payload.iconName} color={payload.color} size={payload.size} />
     </TouchableOpacity>
   );
 };

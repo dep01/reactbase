@@ -1,27 +1,40 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Modal, View, Text,Pressable} from 'react-native';
+import {StyleSheet, Modal, View, Text, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {sys_colors, sys_text_styles} from 'rbase-helpers/constants';
+import {
+  backgroundColorsConstant,
+  borderColorsConstant,
+  buttonColorsConstant,
+  iconColorsConstant,
+  textColorsConstant,
+} from 'rbase-constants/colors_constant';
+import {textStyleConstant} from 'rbase-constants/styles_constant';
+
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'rbase-helpers/responsive';
-export const AlertCustom = ({
-  visible = false,
+
+const alertCustomPayload = {
   onRequestClose,
-  onOk = null,
-  onCancel = null,
-  okText = '',
-  cancelText = '',
-  icon = '',
-  iconColor = sys_colors.secondary,
-  title = '',
-  message = '',
-  height = heightPercentageToDP(30),
-  align="left"
-}) => {
+  visible: false,
+  onOk: null,
+  onCancel: null,
+  okText: '',
+  cancelText: '',
+  icon: '',
+  iconColor: iconColorsConstant.secondary,
+  title: '',
+  message: '',
+  height: heightPercentageToDP(30),
+  align: 'left',
+};
+export const AlertCustom = (payload = alertCustomPayload) => {
   return (
-    <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
+    <Modal
+      transparent={true}
+      visible={payload.visible}
+      onRequestClose={payload.onRequestClose}>
       <View
         style={{
           width: '100%',
@@ -31,42 +44,47 @@ export const AlertCustom = ({
         }}>
         <View style={[styles.containerModal, {height: height + 30}]}>
           <View style={styles.containerTitle}>
-            <Text style={{...sys_text_styles.header_medium_black}}>
+            <Text style={textStyleConstant.headerMediumPrimary}>
               {title.toUpperCase()}
             </Text>
           </View>
 
           <View style={styles.containerContent}>
-            {icon == '' ? null : (
+            {payload.icon == '' ? null : (
               <Icon
-                name={icon}
+                name={payload.icon}
                 color={iconColor}
                 size={42}
                 style={{marginBottom: 10}}
               />
             )}
-            {message == '' ? null : (
-              <Text style={{...sys_text_styles.content_medium_black,textAlign:align}}>
-                {message.toUpperCase()}
+            {payload.message == '' ? null : (
+              <Text
+                style={[
+                  textStyleConstant.contentMediumPrimary,
+                  {
+                    textAlign: payload.align,
+                  },
+                ]}>
+                {payload.message.toUpperCase()}
               </Text>
             )}
           </View>
           <View style={styles.containerAction}>
-            {onOk == null ? null : (
-              <Pressable onPress={onOk}>
+            {payload.onOk == null ? null : (
+              <Pressable onPress={payload.onOk}>
                 <View style={styles.buttonOk}>
-                  <Text style={{...sys_text_styles.content_medium_black}}>
-                    {okText.toUpperCase()}
+                  <Text style={textStyleConstant.contentMediumPrimary}>
+                    {payload.okText.toUpperCase()}
                   </Text>
                 </View>
               </Pressable>
             )}
-            {onCancel == null ? null : (
-              <Pressable
-                onPress={onCancel}>
+            {payload.onCancel == null ? null : (
+              <Pressable onPress={payload.onCancel}>
                 <View style={styles.buttonCancel}>
-                  <Text style={{...sys_text_styles.content_medium_white}}>
-                    {cancelText.toUpperCase()}
+                  <Text style={textStyleConstant.contentMediumSecondary}>
+                    {payload.cancelText.toUpperCase()}
                   </Text>
                 </View>
               </Pressable>
@@ -84,21 +102,21 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft:5,
-    backgroundColor: sys_colors.button.primary,
+    marginLeft: 5,
+    backgroundColor: buttonColorsConstant.primary,
   },
   buttonOk: {
     width: widthPercentageToDP(35),
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: sys_colors.text.white,
+    backgroundColor: textColorsConstant.secondary,
     marginRight: 5,
-    borderColor: sys_colors.button.primary,
+    borderColor: borderColorsConstant.primary,
     borderWidth: 0.5,
   },
   containerModal: {
-    backgroundColor: sys_colors.text.white,
+    backgroundColor: backgroundColorsConstant.white,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -126,6 +144,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginBottom:10
+    marginBottom: 10,
   },
 });

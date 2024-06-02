@@ -1,53 +1,71 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {sys_colors, sys_font} from 'rbase-helpers/constants';
-export const GlobalHeader = ({
+import {
+  backgroundColorsConstant,
+  textColorsConstant,
+} from 'rbase-constants/colors_constant';
+import {fontFamilyConstant} from 'rbase-constants/fonts_constant';
+
+const globalHeaderPayload = {
   children,
-  title = '',
-  right = null,
-  left = null,
-  height = '10%',
-  fontSize = 16,
-  textAlign = 'center',
-  color = sys_colors.text.secondary,
-  style = {},
-  type = 'primary',
-}) => {
+  title: '',
+  right: null,
+  left: null,
+  height: '10%',
+  fontSize: 16,
+  textAlign: 'center',
+  color: textColorsConstant.secondary,
+  style: {},
+  type: 'primary',
+};
+export const GlobalHeader = (payload = globalHeaderPayload) => {
   return type == 'primary' ? (
-    <View style={[styles.container, {height: height}, style]}>
-      {left != null || right != null ? (
-        <View style={styles.left}>{left}</View>
+    <View style={[styles.container, {height: payload.height}, payload.style]}>
+      {payload.left != null || payload.right != null ? (
+        <View style={styles.left}>{payload.left}</View>
       ) : null}
-      {title != '' ? (
+      {payload.title != '' ? (
         <Text
           style={[
             styles.title,
-            {fontSize: fontSize, textAlign: textAlign, color: color},
+            {
+              fontSize: payload.fontSize,
+              textAlign: payload.textAlign,
+              color: payload.color,
+            },
           ]}>
-          {title.toUpperCase()}
+          {payload.title.toUpperCase()}
         </Text>
       ) : (
-        <View style={styles.children}>{children}</View>
+        <View style={styles.children}>{payload.children}</View>
       )}
-      {left != null || right != null ? (
-        <View style={styles.right}>{right}</View>
+      {payload.left != null || payload.right != null ? (
+        <View style={styles.right}>{payload.right}</View>
       ) : null}
     </View>
   ) : (
-    <View style={[styles.container, {height: height}, style]}>
-      {left != null ? <View style={styles.left}>{left}</View> : null}
-      {title != '' ? (
+    <View style={[styles.container, {height: payload.height}, payload.style]}>
+      {payload.left != null ? (
+        <View style={styles.left}>{payload.left}</View>
+      ) : null}
+      {payload.title != '' ? (
         <Text
           style={[
             styles.title,
-            {fontSize: fontSize, textAlign: textAlign, color: color},
+            {
+              fontSize: payload.fontSize,
+              textAlign: payload.textAlign,
+              color: payload.color,
+            },
           ]}>
-          {title.toUpperCase()}
+          {payload.title.toUpperCase()}
         </Text>
       ) : (
-        <View style={styles.children}>{children}</View>
+        <View style={styles.children}>{payload.children}</View>
       )}
-      {right != null ? <View style={styles.right}>{right}</View> : null}
+      {payload.right != null ? (
+        <View style={styles.right}>{payload.right}</View>
+      ) : null}
     </View>
   );
 };
@@ -56,7 +74,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     padding: 10,
-    backgroundColor: sys_colors.secondary,
+    backgroundColor: backgroundColorsConstant.secondary,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -68,7 +86,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontFamily: sys_font.primary[700],
+    fontFamily: fontFamilyConstant.primary[700],
   },
   children: {
     flex: 1,

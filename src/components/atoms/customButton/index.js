@@ -1,48 +1,51 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {sys_colors, sys_font} from 'rbase-helpers/constants';
+import { buttonColorsConstant, textColorsConstant } from 'rbase-constants/colors_constant';
+import { fontFamilyConstant, fontSizeConstant } from 'rbase-constants/fonts_constant';
 
-export const CustomButton = ({
-  title = '',
-  type = 'primary',
-  style = {},
-  textStyle = {},
-  baseWidth = '45%',
-  baseHeight = 55,
+const customButtonPayload ={
+  title : '',
+  type : 'primary',
+  style : {},
+  textStyle : {},
+  baseWidth : '45%',
+  baseHeight : 55,
   children,
   onPress,
-}) => {
+}
+
+export const CustomButton = (payload=customButtonPayload) => {
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={payload.onPress}
       style={[
         styles.default,
         {
-          width: baseWidth,
-          height: baseHeight,
+          width: payload.baseWidth,
+          height: payload.baseHeight,
           backgroundColor:
             type === 'primary'
-              ? sys_colors.button.primary
-              : sys_colors.button.secondary,
+              ? buttonColorsConstant.primary
+              : buttonColorsConstant.secondary,
         },
-        style,
+        payload.style,
       ]}>
-      {title !== '' ? (
+      {payload.title !== '' ? (
         <Text
           style={[
             styles.text,
             {
               color:
                 type === 'primary'
-                  ? sys_colors.text.secondary
-                  : sys_colors.text.primary,
+                  ? textColorsConstant.secondary
+                  : textColorsConstant.primary,
             },
-            textStyle,
+            payload.textStyle,
           ]}>
-          {title.toUpperCase()}
+          {payload.title.toUpperCase()}
         </Text>
       ) : (
-        children
+        payload.children
       )}
     </TouchableOpacity>
   );
@@ -57,8 +60,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontFamily: sys_font.primary[800],
-    fontSize: 12,
+    fontFamily: fontFamilyConstant.primary[600],
+    fontSize: fontSizeConstant.small,
     textAlign: 'center',
     textAlignVertical: 'center',
   },

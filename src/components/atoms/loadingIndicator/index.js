@@ -1,27 +1,34 @@
 import React from 'react';
 import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
-import {sys_colors, sys_font} from 'rbase-helpers/constants';
+import {iconColorsConstant} from 'rbase-constants/colors_constant';
+import {fontFamilyConstant} from 'rbase-constants/fonts_constant';
 
-export const LoadingIndicator = ({
-  text = 'Loading...',
-  loadingColor = sys_colors.icon.active,
-  textColor = sys_colors.icon.active,
-  forInfinityScroll = false,
-}) => {
-  return forInfinityScroll ? (
+const loadingIndicatorPayload = {
+  text: 'Loading...',
+  loadingColor: iconColorsConstant.active,
+  textColor: iconColorsConstant.active,
+  forInfinityScroll: false,
+};
+
+export const LoadingIndicator = (payload = loadingIndicatorPayload) => {
+  return payload.forInfinityScroll ? (
     <View style={{width: '100%', height: 50}}>
       <View style={styles.loading}>
         <View style={styles.container}>
-          <ActivityIndicator size="large" color={loadingColor} />
-          <Text style={[styles.textLoading, {color: textColor}]}>{text}</Text>
+          <ActivityIndicator size="large" color={payload.loadingColor} />
+          <Text style={[styles.textLoading, {color: payload.textColor}]}>
+            {payload.text}
+          </Text>
         </View>
       </View>
     </View>
   ) : (
     <View style={styles.loading}>
       <View style={styles.container}>
-        <ActivityIndicator size="large" color={loadingColor} />
-        <Text style={[styles.textLoading, {color: textColor}]}>{text}</Text>
+        <ActivityIndicator size="large" color={payload.loadingColor} />
+        <Text style={[styles.textLoading, {color: payload.textColor}]}>
+          {payload.text}
+        </Text>
       </View>
     </View>
   );
@@ -48,6 +55,6 @@ const styles = StyleSheet.create({
   textLoading: {
     marginTop: 5,
     fontSize: 14,
-    fontFamily: sys_font.primary[400],
+    fontFamily: fontFamilyConstant.primary[400],
   },
 });

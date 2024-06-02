@@ -1,25 +1,27 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {sys_text_styles} from 'rbase-helpers/constants';
+import { textStyleConstant } from 'rbase-constants/styles_constant';
 
-export const Paragraph = ({
-  title = '',
-  content = '',
-  titleStyle = {},
-  contentStyle = {},
-  style = {},
-  numberOfLines = null,
-}) => {
+const paragraphPayload ={
+  title : '',
+  content : '',
+  titleStyle : {},
+  contentStyle : {},
+  style : {},
+  numberOfLines : null,
+}
+
+export const Paragraph = (payload = paragraphPayload) => {
   return (
-    <View style={[{width: '100%'}, style]}>
-      <Text style={[styles.title, titleStyle]} ellipsizeMode="tail">
-        {title}
+    <View style={[{width: '100%'}, payload.style]}>
+      <Text style={[styles.title, payload.titleStyle]} ellipsizeMode="tail">
+        {payload.title}
       </Text>
       <Text
-        numberOfLines={numberOfLines}
+        numberOfLines={payload.numberOfLines}
         ellipsizeMode="tail"
-        style={[styles.content, contentStyle]}>
-        {content}
+        style={[styles.content, payload.contentStyle]}>
+        {payload.content}
       </Text>
     </View>
   );
@@ -27,13 +29,13 @@ export const Paragraph = ({
 
 const styles = StyleSheet.create({
   title: {
-    ...sys_text_styles.header_medium_black,
+    ...textStyleConstant.headerMediumPrimary,
     width: '100%',
     marginBottom: 10,
     textAlign: 'left',
   },
   content: {
-    ...sys_text_styles.content_medium_black,
+    ...textStyleConstant.contentMediumPrimary,
     width: '100%',
     textAlign: 'left',
   },

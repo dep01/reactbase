@@ -1,50 +1,53 @@
 import React from 'react';
 import {View, Dimensions, Text} from 'react-native';
-import {sys_colors, sys_text_styles} from 'rbase-helpers/constants';
+import {textStyleConstant} from 'rbase-constants/styles_constant';
+import {backgroundColorsConstant} from 'rbase-constants/colors_constant';
 
 const {width, height} = Dimensions.get('window');
 
-export const Card = ({
+const cardPayload = {
   children,
-  Height = height * 0.1,
-  borderRadius = 0,
-  padding = 0,
-  backgroundColor = sys_colors.primary,
-  title = '',
-  uppercase = false,
-  Width = width * 0.1,
-  marginBottom = 10,
-  marginTop = 0,
-  marginLeft = 0,
-  marginRight = 0,
-}) => {
+  height: height * 0.1,
+  borderRadius: 0,
+  padding: 0,
+  backgroundColor: backgroundColorsConstant.primary,
+  title: '',
+  uppercase: false,
+  width: width * 0.1,
+  marginBottom: 10,
+  marginTop: 0,
+  marginLeft: 0,
+  marginRight: 0,
+};
+
+export const Card = (payload = cardPayload) => {
   return (
     <View
       style={{
-        width: Width,
-        marginBottom: marginBottom,
-        marginLeft: marginLeft,
-        marginTop: marginTop,
-        marginRight: marginRight,
+        width: payload.width,
+        marginBottom: payload.marginBottom,
+        marginLeft: payload.marginLeft,
+        marginTop: payload.marginTop,
+        marginRight: payload.marginRight,
       }}>
-      {title != '' ? (
+      {payload.title != '' ? (
         <Text
           style={{
-            ...sys_text_styles.header_black,
+            ...textStyleConstant.headerPrimary,
             marginBottom: 5,
             textAlign: 'left',
           }}>
-          {uppercase ? title.toUpperCase() : title}
+          {payload.uppercase ? payload.title.toUpperCase() : payload.title}
         </Text>
       ) : null}
       <View
         style={{
-          minHeight: Height,
-          borderRadius: borderRadius,
-          padding: padding,
-          backgroundColor: backgroundColor,
+          minHeight: payload.height,
+          borderRadius: payload.borderRadius,
+          padding: payload.padding,
+          backgroundColor: payload.backgroundColor,
         }}>
-        {children}
+        {payload.children}
       </View>
     </View>
   );
