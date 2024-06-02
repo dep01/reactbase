@@ -3,8 +3,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SplashScreenPage, HomeScreenPage, LoginScreenPage} from '../pages';
-import {sys_colors, sys_text_styles} from 'rbase-helpers/constants';
-import {routes_name} from '.';
+import {routesName} from '.';
+import {
+  backgroundColorsConstant,
+  iconColorsConstant,
+} from 'rbase-constants/colors_constant';
+import {textStyleConstant} from 'rbase-constants/styles_constant';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -13,18 +17,18 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        activeTintColor: sys_colors.secondary,
-        inactiveTintColor: sys_colors.icon.unactive,
-        activeBackgroundColor: sys_colors.secondary,
-        inactiveBackgroundColor: sys_colors.primary,
+        activeTintColor: iconColorsConstant.active,
+        inactiveTintColor: iconColorsConstant.inActive,
+        activeBackgroundColor: backgroundColorsConstant.secondary,
+        inactiveBackgroundColor: backgroundColorsConstant.primary,
         labelStyle: {
-          fontFamily: sys_text_styles.content_small_black,
+          fontFamily: textStyleConstant.contentSmallPrimary,
           fontSize: 10,
         },
         tabBarLabel: () => null,
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-          if (route.name === routes_name.HOME) {
+          if (route.name === routesName.home) {
             iconName = 'home';
           } else {
             iconName = 'account';
@@ -34,14 +38,16 @@ const BottomTabNavigator = () => {
               name={iconName}
               size={24}
               color={
-                focused ? sys_colors.icon.active : sys_colors.icon.unactive
+                focused
+                  ? iconColorsConstant.active
+                  : iconColorsConstant.inActive
               }
             />
           );
         },
       })}>
       <Tab.Screen
-        name={routes_name.HOME}
+        name={routesName.home}
         component={HomeScreenPage}
         options={{headerShown: false}}
       />
@@ -51,19 +57,19 @@ const BottomTabNavigator = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName={routes_name.SPLASH}>
+    <Stack.Navigator initialRouteName={routesName.splashScreen}>
       <Stack.Screen
-        name={routes_name.SPLASH}
+        name={routesName.splashScreen}
         component={SplashScreenPage}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={routes_name.LAYOUT}
+        name={routesName.layout}
         component={BottomTabNavigator}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={routes_name.LOGIN}
+        name={routesName.login}
         component={LoginScreenPage}
         options={{headerShown: false}}
       />

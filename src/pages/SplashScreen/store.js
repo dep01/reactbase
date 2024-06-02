@@ -1,5 +1,5 @@
-import create from 'zustand';
-import {routes_name} from 'rbase-routes';
+import {create} from 'zustand';
+import {routesName} from 'rbase-routes';
 
 export function base_state(props) {
   return {
@@ -10,7 +10,7 @@ export const useStore = create(set => base_state());
 export const action = {
   initialize: navigation => {
     setTimeout(() => {
-      navigation.replace(routes_name.LOGIN);
+      navigation.replace(routesName.LOGIN);
     }, 2000);
   },
   cleanUp: () => {

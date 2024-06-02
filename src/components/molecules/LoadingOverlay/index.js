@@ -10,7 +10,7 @@ const loadingStore = create(set => ({
 const LoadingOverlay = () => {
   const loadingData = loadingStore(state => state.loading);
   if (loadingData) {
-    return (
+    return ( 
       <View style={styles.loading}>
         <View style={styles.container}>
           <ActivityIndicator size="large" color={'#2E2D98'} />

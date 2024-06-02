@@ -1,7 +1,7 @@
 'use strict';
-export const routes_name = {
-  SPLASH: 'SPLASH',
-  LOGIN: 'LOGIN',
-  LAYOUT: 'LAYOUT',
-  HOME: 'HOME',
+export const routesName = {
+  splashScreen: 'SPLASH',
+  login: 'LOGIN',
+  layout: 'LAYOUT',
+  home: 'HOME',
 };

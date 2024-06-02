@@ -1,5 +1,5 @@
 import { askPermission } from 'rbase-helpers/permission';
-import {routes_name} from 'rbase-routes';
+import {routesName} from 'rbase-routes';
 import create from 'zustand';
 
 export function base_state(props) {
@@ -27,5 +27,5 @@ export const setter = {
 };
 
 function doLogin(navigation) {
-  navigation.replace(routes_name.LAYOUT);
+  navigation.replace(routesName.LAYOUT);
 }
