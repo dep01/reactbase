@@ -1,8 +1,8 @@
-import { askPermission } from 'rbase-helpers/permission';
+import {askPermission} from 'rbase-helpers/permission';
 import {routesName} from 'rbase-routes';
-import create from 'zustand';
+import {create} from 'zustand';
 
-export function base_state(props) {
+export function baseState(props) {
   return {
     loading: props?.loading ?? false,
     showPassword: props?.showPassword ?? false,
@@ -10,14 +10,9 @@ export function base_state(props) {
     password: props?.password ?? '',
   };
 }
-export const useStore = create(set => base_state());
-export const action = {
-  initialize: () => {
-    askPermission();
-  },
-  cleanUp: () => useStore.setState(base_state()),
-  doLogin,
-};
+
+export const useStore = create(set => baseState());
+
 export const setter = {
   loading: (value = false) => useStore.setState({loading: value}),
   password: (value = '') => useStore.setState({password: value}),
@@ -26,6 +21,14 @@ export const setter = {
     useStore.setState({showPassword: !useStore.getState().showPassword}),
 };
 
+export const action = {
+  initialize: () => {
+    askPermission();
+  },
+  cleanUp: () => useStore.setState(baseState()),
+  doLogin,
+};
+
 function doLogin(navigation) {
-  navigation.replace(routesName.LAYOUT);
+  navigation.replace(routesName.layout);
 }

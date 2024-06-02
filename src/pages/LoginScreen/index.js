@@ -1,21 +1,20 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import {
-  sys_colors,
-  sys_icons,
-  sys_styles,
-  sys_text_styles,
-} from 'rbase-helpers/constants';
-import shallow from 'zustand/shallow';
-import {action, setter, useStore, base_state} from './store';
+import {View, StyleSheet, Dimensions} from 'react-native';
+import {action, setter, useStore, baseState} from './store';
 import {Card} from 'rbase-components/molecules';
 import {BackButton, CustomButton, CustomInput} from 'rbase-components/atoms';
+import {
+  baseStyleConstant,
+  textStyleConstant,
+} from 'rbase-constants/styles_constant';
+import {
+  backgroundColorsConstant,
+  iconColorsConstant,
+} from 'rbase-constants/colors_constant';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 export default ({navigation}) => {
-  const state = {
-    ...useStore(state => base_state(state), shallow),
-  };
+  const state = useStore(state => baseState(state));
 
   useEffect(() => {
     action.initialize();
@@ -24,76 +23,72 @@ export default ({navigation}) => {
     };
   }, [navigation, action]);
   return (
-    <View style={sys_styles.scaffold}>
-      <View style={sys_styles.container_center_screen}>
+    <View style={baseStyleConstant.scaffold}>
+      <View style={baseStyleConstant.containerCenterScreen}>
         <Card
           Width="90%"
           padding={12}
           title="Login"
           borderRadius={15}
-          backgroundColor={sys_colors.text.white}
-          children={
-            <View>
-              <CustomInput
-                onChangeText={val => setter.username(val)}
-                containerStyle={styles.containerInput}
-                label="USERNAME"
-                labelStyle={styles.textLabel}
-                placeholder="Username..."
-                inputStyle={styles.textInput}
-                value={state.username}
-              />
-              <CustomInput
-                labelStyle={styles.textLabel}
-                placeholder="Password..."
-                secureTextEntry={state.showPassword}
-                onChangeText={val => setter.password(val)}
-                containerStyle={styles.containerInput}
-                label="password"
-                inputStyle={styles.textInput}
-                right={
-                  <BackButton
-                    size={30}
-                    style={{
-                      flex: 1,
-                      alignItems: 'center',
-                      backgroundColor: sys_colors.primary,
-                    }}
-                    onPress={() => setter.showPassword()}
-                    iconName={state.showPassword ? 'eye' : 'eye-off'}
-                    color={sys_colors.icon.active}
-                  />
-                }
-                value={state.password}
-              />
-              <CustomButton
-                title="Login"
-                baseWidth="100%"
-                style={styles.buttonLogin}
-                onPress={() => action.doLogin(navigation)}
-              />
-            </View>
-          }
-        />
+          backgroundColor={backgroundColorsConstant.white}>
+          <View>
+            <CustomInput
+              onChangeText={val => setter.username(val)}
+              containerStyle={styles.containerInput}
+              label="USERNAME"
+              labelStyle={styles.textLabel}
+              placeholder="Username..."
+              inputStyle={styles.textInput}
+              value={state.username}
+            />
+            <CustomInput
+              labelStyle={styles.textLabel}
+              placeholder="Password..."
+              secureTextEntry={state.showPassword}
+              onChangeText={val => setter.password(val)}
+              containerStyle={styles.containerInput}
+              label="password"
+              inputStyle={styles.textInput}
+              right={
+                <BackButton
+                  size={30}
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    backgroundColor: backgroundColorsConstant.primary,
+                  }}
+                  onPress={() => setter.showPassword()}
+                  iconName={state.showPassword ? 'eye' : 'eye-off'}
+                  color={iconColorsConstant.active}
+                />
+              }
+              value={state.password}
+            />
+            <CustomButton
+              title="Login"
+              baseWidth="100%"
+              style={styles.buttonLogin}
+              onPress={() => action.doLogin(navigation)}
+            />
+          </View>
+        </Card>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   textLabel: {
-    ...sys_text_styles.header_small_black,
+    ...textStyleConstant.headerSmallPrimary,
     color: sys_colors.text.black,
   },
   textDaftar: {
-    ...sys_text_styles.header_small_black,
-    color: sys_colors.text.black,
+    ...textStyleConstant.headerSmallPrimary,
     textDecorationLine: 'underline',
     marginBottom: 10,
   },
   textInput: {
-    ...sys_text_styles.header_small_black,
-    backgroundColor: sys_colors.primary,
-    color: sys_colors.text.primary,
+    ...textStyleConstant.headerSmallPrimary,
+    backgroundColor: backgroundColorsConstant.primary,
   },
   containerInput: {
     marginBottom: 10,
