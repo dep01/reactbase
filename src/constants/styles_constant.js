@@ -1,127 +1,158 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import {FONT_FAMILY_CONSTANT, FONT_SIZE_CONSTANT} from './fonts_constant';
-import {
-  TEXT_COLORS_CONSTANT,
-  BACKGROUND_COLORS_CONSTANT,
-} from './colors_constant';
+import {fontFamilyConstant, fontSizeConstant} from './fonts_constant';
+import {textColorsConstant, backgroundColorsConstant} from './colors_constant';
 
 const {width, height} = Dimensions.get('window');
 
 // Base padding size constant
-export const PADDING_SIZE_CONSTANT = {
-  CONTAINER: 12,
-  CARD: 5,
-  ZERO: 0,
+export const paddingSizeConstant = {
+  container: 12,
+  card: 5,
+  zero: 0,
 };
 
 // Text base style constant
-export const TEXT_STYLES_CONSTANT = StyleSheet.create({
-  HEADER_PRIMARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[800],
-    fontSize: FONT_SIZE_CONSTANT.BIG,
-    color: TEXT_COLORS_CONSTANT.PRIMARY,
+export const textStyleConstant = StyleSheet.create({
+  // header primary with text color primary
+  headerPrimary: {
+    fontFamily: fontFamilyConstant.primary[800],
+    fontSize: fontSizeConstant.big,
+    color: textColorsConstant.primary,
   },
-  HEADER_MEDIUM_PRIMARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[800],
-    fontSize: FONT_SIZE_CONSTANT.MEDIUM,
-    color: TEXT_COLORS_CONSTANT.PRIMARY,
+
+  // header medium with text color primary
+  headerMediumPrimary: {
+    fontFamily: fontFamilyConstant.primary[800],
+    fontSize: fontSizeConstant.medium,
+    color: textColorsConstant.primary,
   },
-  HEADER_SMALL_PRIMARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[800],
-    fontSize: FONT_SIZE_CONSTANT.SMALL,
-    color: TEXT_COLORS_CONSTANT.PRIMARY,
+
+  // header small with text color primary
+  headerSmallPrimary: {
+    fontFamily: fontFamilyConstant.primary[800],
+    fontSize: fontSizeConstant.small,
+    color: textColorsConstant.primary,
   },
-  HEADER_SECONDARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[800],
-    fontSize: FONT_SIZE_CONSTANT.BIG,
-    color: TEXT_COLORS_CONSTANT.SECONDARY,
+
+  // header primary with text color secondary
+  headerSecondary: {
+    fontFamily: fontFamilyConstant.primary[800],
+    fontSize: fontSizeConstant.big,
+    color: textColorsConstant.secondary,
   },
-  HEADER_MEDIUM_SECONDARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[800],
-    fontSize: FONT_SIZE_CONSTANT.MEDIUM,
-    color: TEXT_COLORS_CONSTANT.SECONDARY,
+
+  // header medium with text color secondary
+  headerMediumSecondary: {
+    fontFamily: fontFamilyConstant.primary[800],
+    fontSize: fontSizeConstant.medium,
+    color: textColorsConstant.secondary,
   },
-  HEADER_SMALL_SECONDARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[800],
-    fontSize: FONT_SIZE_CONSTANT.SMALL,
-    color: TEXT_COLORS_CONSTANT.SECONDARY,
+
+  // header small with text color secondary
+  headerSmallSecondary: {
+    fontFamily: fontFamilyConstant.primary[800],
+    fontSize: fontSizeConstant.small,
+    color: textColorsConstant.secondary,
   },
-  CONTENT_PRIMARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[400],
-    fontSize: FONT_SIZE_CONSTANT.BIG,
-    color: TEXT_COLORS_CONSTANT.PRIMARY,
+
+  // content primary with text color primary
+  contentPrimary: {
+    fontFamily: fontFamilyConstant.primary[400],
+    fontSize: fontSizeConstant.big,
+    color: textColorsConstant.primary,
   },
-  CONTENT_MEDIUM_PRIMARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[400],
-    fontSize: FONT_SIZE_CONSTANT.MEDIUM,
-    color: TEXT_COLORS_CONSTANT.PRIMARY,
+
+  // content medium with text color primary
+  contentMediumPrimary: {
+    fontFamily: fontFamilyConstant.primary[400],
+    fontSize: fontSizeConstant.medium,
+    color: textColorsConstant.primary,
   },
-  CONTENT_SMALL_PRIMARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[400],
-    fontSize: FONT_SIZE_CONSTANT.SMALL,
-    color: TEXT_COLORS_CONSTANT.PRIMARY,
+
+  // content small with text color primary
+  contentSmallPrimary: {
+    fontFamily: fontFamilyConstant.primary[400],
+    fontSize: fontSizeConstant.small,
+    color: textColorsConstant.primary,
   },
-  CONTENT_SECONDARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[400],
-    fontSize: FONT_SIZE_CONSTANT.BIG,
-    color: TEXT_COLORS_CONSTANT.SECONDARY,
+
+  // content primary with text color secondary
+  contentSecondary: {
+    fontFamily: fontFamilyConstant.primary[400],
+    fontSize: fontSizeConstant.big,
+    color: textColorsConstant.secondary,
   },
-  CONTENT_MEDIUM_SECONDARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[400],
-    fontSize: FONT_SIZE_CONSTANT.MEDIUM,
-    color: TEXT_COLORS_CONSTANT.SECONDARY,
+
+  // content medium with text color secondary
+  contentMediumSecondary: {
+    fontFamily: fontFamilyConstant.primary[400],
+    fontSize: fontSizeConstant.medium,
+    color: textColorsConstant.secondary,
   },
-  CONTENT_SMALL_SECONDARY: {
-    fontFamily: FONT_FAMILY_CONSTANT.PRIMARY[400],
-    fontSize: FONT_SIZE_CONSTANT.SMALL,
-    color: TEXT_COLORS_CONSTANT.SECONDARY,
+
+  // content small with text color secondary
+  contentSmallSecondary: {
+    fontFamily: fontFamilyConstant.primary[400],
+    fontSize: fontSizeConstant.small,
+    color: textColorsConstant.secondary,
   },
 });
 
 // Base style constant
-export const BASE_STYLES_CONSTANT = StyleSheet.create({
-  SCAFFOLD: {
+export const baseStyleConstant = StyleSheet.create({
+  // wrapper view
+  scaffold: {
     width: width,
     height: height,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: BACKGROUND_COLORS_CONSTANT.PRIMARY,
+    backgroundColor: backgroundColorsConstant.primary,
   },
-  SCAFFOLD_CENTER: {
+
+  // wrapper view
+  scaffoldCenter: {
     width: width,
     height: height,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: BACKGROUND_COLORS_CONSTANT.PRIMARY,
+    backgroundColor: backgroundColorsConstant.primary,
   },
-  CONTAINER: {
+
+  // container start child
+  container: {
     flex: 1,
     width: width,
-    backgroundColor: BACKGROUND_COLORS_CONSTANT.PRIMARY,
-    padding: PADDING_SIZE_CONSTANT.CONTAINER,
+    backgroundColor: backgroundColorsConstant.primary,
+    padding: paddingSizeConstant.container,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  CONTAINER_CENTER: {
+
+  // container center child
+  containerCenter: {
     flex: 1,
     width: width,
-    backgroundColor: BACKGROUND_COLORS_CONSTANT.PRIMARY,
-    padding: PADDING_SIZE_CONSTANT.CONTAINER,
+    backgroundColor: backgroundColorsConstant.primary,
+    padding: paddingSizeConstant.container,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  CONTAINER_CENTER_SCREEN: {
+
+  // container center screen child
+  containerCenterScreen: {
     flex: 1,
     width: width,
-    backgroundColor: BACKGROUND_COLORS_CONSTANT.PRIMARY,
-    padding: PADDING_SIZE_CONSTANT.CONTAINER,
+    backgroundColor: backgroundColorsConstant.primary,
+    padding: paddingSizeConstant.container,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  SCROLL_CONTAINER: {
-    padding: PADDING_SIZE_CONSTANT.CONTAINER,
+
+  // for handling scroll container with bottom tab navigator
+  scrollContainer: {
+    padding: paddingSizeConstant.container,
     width: width,
     marginBottom: height * 0.08,
-    backgroundColor: BACKGROUND_COLORS_CONSTANT.PRIMARY,
+    backgroundColor: backgroundColorsConstant.primary,
   },
 });

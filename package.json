@@ -9,7 +9,6 @@
     "test": "jest",
     "lint": "eslint .",
     "generate": "npx run-func generator.js",
-    "app-name": "npx run-func app_name_changer.js",
     "gen-icon": "iconset create ./src/assets/images/ic_loading.png"
   },
   "dependencies": {

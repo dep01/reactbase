@@ -1,109 +1,131 @@
 import Moment from 'moment';
-import create from 'zustand';
+import {create} from 'zustand';
 
-export const global_base_state = props => {
+// init all global state
+export const globalBaseState = props => {
   return {
     toastRef: props?.toastRef ?? null,
     isLoading: props?.isLoading ?? true,
-    modal_message: props?.modal_message ?? '',
-    modal_title: props?.modal_title ?? '',
-    modal_icon: props?.modal_icon ?? '',
-    show_modal: props?.show_modal ?? false,
-    modal_confirmation_message: props?.modal_confirmation_message ?? '',
-    modal_confirmation_title: props?.modal_confirmation_title ?? '',
-    modal_confirmation_icon: props?.modal_confirmation_icon ?? '',
-    show_confirmation_modal: props?.show_confirmation_modal ?? false,
-    modal_confirmation_ok: props?.modal_confirmation_ok ?? null,
+    modalMessage: props?.modalMessage ?? '',
+    modalTitle: props?.modalTitle ?? '',
+    modalIcon: props?.modalIcon ?? '',
+    showModal: props?.showModal ?? false,
+    modalConfirmationMessage: props?.modalConfirmationMessage ?? '',
+    modalConfimationTitle: props?.modalConfimationTitle ?? '',
+    modalConfimationIcon: props?.modalConfimationIcon ?? '',
+    showConfirmationModal: props?.showConfirmationModal ?? false,
+    modalConfirmationOk: props?.modalConfirmationOk ?? null,
   };
 };
-export const globalStore = create(set => global_base_state());
-export const setter_global_state = {
+export const globalStore = create(set => globalBaseState());
+
+// function for set value global state
+export const setterGlobalState = {
   toastRef: (value = null) => globalStore.setState({toastRef: value}),
   isLoading: (value = false) => globalStore.setState({isLoading: value}),
-  show_modal: (value = false) => globalStore.setState({show_modal: value}),
-  modal_message: (value = '') => globalStore.setState({modal_message: value}),
-  modal_title: (value = '') => globalStore.setState({modal_title: value}),
-  modal_icon: (value = '') => globalStore.setState({modal_icon: value}),
-  show_confirmation_modal: (value = false) =>
-    globalStore.setState({show_confirmation_modal: value}),
-  modal_confirmation_title: (value = '') =>
-    globalStore.setState({modal_confirmation_title: value}),
-  modal_confirmation_message: (value = '') =>
-    globalStore.setState({modal_confirmation_message: value}),
-  modal_confirmation_icon: (value = '') =>
-    globalStore.setState({modal_confirmation_icon: value}),
-  modal_confirmation_ok: (value = null) =>
+  showModal: (value = false) => globalStore.setState({showModal: value}),
+  modalMessage: (value = '') => globalStore.setState({modalMessage: value}),
+  modalTitle: (value = '') => globalStore.setState({modalTitle: value}),
+  modalIcon: (value = '') => globalStore.setState({modalIcon: value}),
+  showConfirmationModal: (value = false) =>
+    globalStore.setState({showConfirmationModal: value}),
+  modalConfimationTitle: (value = '') =>
+    globalStore.setState({modalConfimationTitle: value}),
+  modalConfirmationMessage: (value = '') =>
+    globalStore.setState({modalConfirmationMessage: value}),
+  modalConfimationIcon: (value = '') =>
+    globalStore.setState({modalConfimationIcon: value}),
+  modalConfirmationOk: (value = null) =>
     globalStore.setState({
-      modal_confirmation_ok: value,
+      modalConfirmationOk: value,
     }),
 };
+
+// global toast
 export function globalToast({message = '', type = ''}) {
   const toastRef = globalStore.getState().toastRef;
-  toastRef?.current?.show(message, {type}) ?? null;
+
+  // check the global toast is not null
+  if (toastRef != null) {
+    toastRef.current.show(message, {type});
+  }
 }
+
+// global modal
 export function globalModal({
   message = '',
   title = 'ERROR!',
   icon = 'close-circle-outline',
 }) {
-  setter_global_state.modal_icon(icon);
-  setter_global_state.modal_title(title);
-  setter_global_state.modal_message(message);
-  setter_global_state.show_modal(true);
+  setterGlobalState.modalIcon(icon);
+  setterGlobalState.modalTitle(title);
+  setterGlobalState.modalMessage(message);
+  setterGlobalState.showModal(true);
 }
 
+// global modal with button confirmation
 export function globalModalConfirmation({
   action,
   message = '',
   title = 'CONFIRM',
   icon = 'alert-circle-outline',
 }) {
-  setter_global_state.modal_confirmation_icon(icon);
-  setter_global_state.modal_confirmation_title(title);
-  setter_global_state.modal_confirmation_message(message);
-  setter_global_state.modal_confirmation_ok(action);
-  setter_global_state.show_confirmation_modal(true);
+  setterGlobalState.modalConfimationIcon(icon);
+  setterGlobalState.modalConfimationTitle(title);
+  setterGlobalState.modalConfirmationMessage(message);
+  setterGlobalState.modalConfirmationOk(action);
+  setterGlobalState.showConfirmationModal(true);
 }
+
+// toast props
 export const toastProps = {
   placement: {
-    BOTTOM: 'bottom',
-    TOP: 'top',
-    CENTER: 'center',
+    bottom: 'bottom',
+    top: 'top',
+    center: 'center',
   },
   animationType: {
-    SLIDE_IN: 'slide-in',
-    ZOOM_IN: 'zoom-in',
+    slideIn: 'slide-in',
+    zoomIn: 'zoom-in',
   },
   type: {
-    SUCCESS: 'success',
-    WARNING: 'warning',
-    DANGER: 'danger',
-    NORMAL: 'normal',
+    success: 'success',
+    warning: 'warning',
+    danger: 'danger',
+    normal: 'normal',
   },
 };
-export function SysCurrencyTransform({num = 0, currency = 'IDR'}) {
+
+// format number to currency
+export function currencyTransform({num = 0, currency = 'IDR'}) {
   return (
     currency + ' ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
   );
 }
-export function SysGetCurrentTime({lang = 'en', type = 'long'}) {
+
+// get current time
+export function getCurrentTime({lang = 'en', type = 'long'}) {
   const date = new Date();
   return {
     time: `${addZero({num: date.getHours()})}:${addZero({
       num: date.getMinutes(),
     })}:${addZero({num: date.getSeconds()})}`,
-    day: SysDay({date: date, lang: lang}),
-    date: SysDateTransform({date: date, type: type, lang: lang}),
+    day: getDayName({date: date, lang: lang}),
+    date: dateTranform({date: date, type: type, lang: lang}),
   };
 }
+
+// add leading zero
 export function addZero({num = 0}) {
   if (num < 10) {
     return `0${num}`;
   }
   return `${num}`;
 }
-export function SysDay({date = '', lang = 'en'}) {
-  var days = [
+
+// get day name
+export function getDayName({date = '', lang = 'en'}) {
+  let days = [
     'Sunday',
     'Monday',
     'Thuesday',
@@ -118,7 +140,9 @@ export function SysDay({date = '', lang = 'en'}) {
   }
   return days[dateFormat.getDay()];
 }
-export function SysDateTransform({
+
+// transform date to human readable
+export function dateTranform({
   date = '',
   type = 'long',
   checkIsToDay = false,
@@ -132,7 +156,11 @@ export function SysDateTransform({
   const hour = dateFormat.getHours();
   const minutes = dateFormat.getMinutes();
   let fullOfdate = '';
+
+  // check params today available
   if (checkIsToDay) {
+
+    // if date is equal today return just time
     if (
       Moment(current).format('yyyy-MM-DD') ==
       Moment(dateFormat).format('yyyy-MM-DD')
@@ -140,15 +168,17 @@ export function SysDateTransform({
       fullOfdate = hour + ':' + minutes;
     } else {
       fullOfdate =
-        day + ' ' + SysMonthTransform(month, type, lang) + ' ' + year;
+        day + ' ' + monthNameTransform(month, type, lang) + ' ' + year;
     }
   } else {
-    fullOfdate = day + ' ' + SysMonthTransform(month, type, lang) + ' ' + year;
+    fullOfdate = day + ' ' + monthNameTransform(month, type, lang) + ' ' + year;
   }
   return fullOfdate;
 }
-export function SysMonthTransform(val, type = 'long', lang = 'en') {
-  var longMonth = [
+
+// transform month name
+export function monthNameTransform(val, type = 'long', lang = 'en') {
+  let longMonth = [
     'January',
     'February',
     'March',
@@ -162,7 +192,7 @@ export function SysMonthTransform(val, type = 'long', lang = 'en') {
     'November',
     'December',
   ];
-  var shortMonth = [
+  let shortMonth = [
     'Jan',
     'Feb',
     'Mar',
