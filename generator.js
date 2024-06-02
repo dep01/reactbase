@@ -198,30 +198,28 @@ const modelOfData${named} = {${listKey.map(val => {
 };
 function listOf${named}(data = []) {
   let listData = [modelOfData${named}];
-  listData = [];
-  try {
-    for (let val of data) {
-      let object = {${listKey.map(val => {
-        let str = '';
-        if (val.data == null) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data === 'object') {
-          str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
-        } else {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        }
-        return str;
-      })}
-      };
-      listData.push(object);
-    };
-  } catch (error) {
-    console.log(error.message);
+  if (data == null || data ==[]){
+    return []
   }
+  for (let val of data) {
+    let object = {${listKey.map(val => {
+      let str = '';
+      if (val.data == null) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      } else if (Array.isArray(val.data) && !val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+      } else if (Array.isArray(val.data) && val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
+      } else if (typeof val.data === 'object') {
+        str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
+      } else {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      }
+      return str;
+    })}
+    };
+    listData.push(object);
+  };
   return listData;
 }
 function objectOf${named}(data = null) {
@@ -229,10 +227,8 @@ function objectOf${named}(data = null) {
   if (data == null) {
     return null;
   }
-  try {${forObject}
-  } catch (error) {
-    console.log(error.message);
-  }
+  ${forObject}
+  
   return objectData;
 }
 module.exports = {
@@ -323,30 +319,28 @@ const modelOfData${name} = {${listKey.map(val => {
     childOne += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
-  listData = [];
-  try {
-    for(let val of data) {
-      let object = {${listKey.map(val => {
-        let str = '';
-        if (val.data == null) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data === 'object') {
-          str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
-        } else {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        }
-        return str;
-      })}
-      };
-      listData.push(object);
-    };
-  } catch (error) {
-    console.log(error.message);
+  if (data == null || data ==[]){
+    return []
   }
+  for(let val of data) {
+    let object = {${listKey.map(val => {
+      let str = '';
+      if (val.data == null) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      } else if (Array.isArray(val.data) && !val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+      } else if (Array.isArray(val.data) && val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
+      } else if (typeof val.data === 'object') {
+        str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
+      } else {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      }
+      return str;
+    })}
+    };
+    listData.push(object);
+  };
   return listData;
 }`;
   } else {
@@ -356,10 +350,8 @@ function objectOf${name}(data = null) {
   if (data == null) {
     return null;
   }
-  try {${forObject}
-  } catch (error) {
-    console.log(error.message);
-  }
+  ${forObject}
+  
   return objectData;
 }`;
   }
@@ -432,30 +424,28 @@ const modelOfData${name} = {${listKey.map(val => {
     childTwo += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
-  listData = [];
-  try {
-    for(let val of data){
-      let object = {${listKey.map(val => {
-        let str = '';
-        if (val.data == null) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data === 'object') {
-          str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
-        } else {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        }
-        return str;
-      })}
-      };
-      listData.push(object);
-    };
-  } catch (error) {
-    console.log(error.message);
+  if (data == null || data ==[]){
+    return []
   }
+  for(let val of data){
+    let object = {${listKey.map(val => {
+      let str = '';
+      if (val.data == null) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      } else if (Array.isArray(val.data) && !val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+      } else if (Array.isArray(val.data) && val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
+      } else if (typeof val.data === 'object') {
+        str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
+      } else {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      }
+      return str;
+    })}
+    };
+    listData.push(object);
+  };
   return listData;
 };`;
   } else {
@@ -465,10 +455,8 @@ function objectOf${name}(data = null) {
   if (data == null) {
     return null;
   };
-  try {${forObject}
-  } catch (error) {
-    console.log(error.message);
-  }
+  ${forObject}
+  
   return objectData;
 }`;
   }
@@ -540,30 +528,28 @@ const modelOfData${name} = {${listKey.map(val => {
     childThree += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
-  listData = [];
-  try {
-    for(let val of data) {
-      let object = {${listKey.map(val => {
-        let str = '';
-        if (val.data == null) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        } else if (Array.isArray(val.data) && !val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
-        } else if (Array.isArray(val.data) && val.isSingle) {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
-        } else if (typeof val.data === 'object') {
-          str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
-        } else {
-          str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-        }
-        return str;
-      })}
-      };
-      listData.push(object);
-    });
-  } catch (error) {
-    console.log(error.message);
+  if (data == null || data ==[]){
+    return []
   }
+  for(let val of data) {
+    let object = {${listKey.map(val => {
+      let str = '';
+      if (val.data == null) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      } else if (Array.isArray(val.data) && !val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: listOf${val.name}(val.${val.name} ?? [])`;
+      } else if (Array.isArray(val.data) && val.isSingle) {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? []`;
+      } else if (typeof val.data === 'object') {
+        str = `\n\t\t\t\t${val.name}: objectOf${val.name}(val.${val.name} ?? null)`;
+      } else {
+        str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      }
+      return str;
+    })}
+    };
+    listData.push(object);
+  });
   return listData;
 }`;
   } else {
@@ -573,10 +559,8 @@ function objectOf${name}(data = null) {
   if (data == null) {
     return null;
   };
-  try {${forObject}
-  } catch (error) {
-    console.log(error.message);
-  }
+  ${forObject}
+  
   return objectData;
 }`;
   }
@@ -620,20 +604,17 @@ const modelOfData${name} = {${listKey.map(val => {
     childFour += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
-  listData = [];
-  try {
-    for (let val of data){
-      let object = {${listKey.map(val => {
-        const str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
-
-        return str;
-      })}
-      };
-      listData.push(object);
-    };
-  } catch (error) {
-    console.log(error.message);
+  if (data == null || data ==[]){
+    return []
   }
+  for (let val of data){
+    let object = {${listKey.map(val => {
+      const str = `\n\t\t\t\t${val.name}: val.${val.name} ?? null`;
+      return str;
+    })}
+    };
+    listData.push(object);
+  };
   return listData;
 }`;
   } else {
@@ -643,10 +624,8 @@ function objectOf${name}(data = null) {
   if (data == null) {
     return null;
   };
-  try {${forObject}
-  } catch (error) {
-    console.log(error.message);
-  }
+  ${forObject}
+  
   return objectData;
 }`;
   }
@@ -656,26 +635,24 @@ async function view(name) {
   console.log('generating view...');
   const strView = `import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import shallow from 'zustand/shallow';
-import {sys_colors, sys_styles, sys_text_styles} from 'rbase-helpers/constants';
-import {action,setter,useStore,base_state} from './store';
-export default ({navigation}) => {
-  const state = {
-    ...useStore(
-      state => (base_state(state)),
-      shallow,
-    ),
-  };
+import {
+  baseStyleConstant,
+  textStyleConstant,
+} from 'rbase-constants/styles_constant';
+import {action, useStore, baseState} from './store';
 
-useEffect(() => {
-  action.initialize();
-  return () => {
-    action.cleanUp();
-  };
-}, [navigation, action]);
+export default ({navigation}) => {
+  const state = useStore(state => baseState(state));
+
+  useEffect(() => {
+    action.initialize();
+    return () => {
+      action.cleanUp();
+    };
+  }, [navigation, action]);
   return (
-    <View style={sys_styles.scaffold}>
-      <View style={sys_styles.container_center_screen}>
+    <View style={baseStyleConstant.scaffold}>
+      <View style={baseStyleConstant.containerCenterScreen}>
         <Text style={styles.titleText}>This is ${name} page</Text>
       </View>
     </View>
@@ -683,77 +660,64 @@ useEffect(() => {
 };
 const styles = StyleSheet.create({
   titleText: {
-    ...sys_text_styles.header_medium_black,
-  }
-});
+    ...textStyleConstant.headerMediumPrimary,
+  },
+});  
   `;
   await writeFile(dir, 'index', strView, 'view successfully generated..');
   console.log('generating store...');
-  const strStore = `import create from 'zustand';
-  export function base_state (props) {
-      return {
-        loading: props?.loading??false
-      }
-  }
-  export const useStore = create(set => (base_state()));
-  export const action = {
-    initialize: () => {},
-    cleanUp: () => {
-      useStore.setState(base_state());
-    },
+  const strStore = `import {create} from 'zustand';
+
+// init state
+export function baseState(props) {
+  return {
+    loading: props?.loading ?? false,
   };
-  export const setter = {
-    loading: (value = false) => useStore.setState({loading: value}),
-  };
+}
+
+// create state
+export const useStore = create(set => baseState());
+
+// for setter state
+export const setter = {
+  loading: (value = false) => useStore.setState({loading: value}),
+};
+
+// action list
+export const action = {
+  initialize: () => {},
+  cleanUp: () => {
+    useStore.setState(baseState());
+  },
+};  
 `;
   writeFile(dir, 'store', strStore, 'store successfully generated..');
 }
 async function providers(name) {
   console.log('generating provider...');
   const named = name + 'Provider';
-  const str = `import Convert from '@/model/${name}Model.js';
-import {sys_get,sys_post,sys_put,sys_del} from '@/utils/api_client';
+  const str = `import {get,post,put,del} from 'rbase-utils/api_client';
 
-const uri = '${name}/'
+const uri = '/${name}'
 export async function getAll(){
-  try {
-    const response = await sys_get({endpoint: uri});
-    return Convert.listOf${name}Model(response.callback);
-  } catch (error) {
-    
-  }
+  const response = await get({endpoint: uri});
+  return response;
 }
 export async function getById(id){
-  try {
-    const response = await sys_get({endpoint: uri+id});
-    return Convert.objectOf${name}Model(response.callback);
-  } catch (error) {
-    
-  }
+  const response = await get({endpoint: uri+id});
+  return response;
 }
 export async function addData(data){
-  try {
-    const response = await sys_post({endpoint: uri,body:data});
-    return response.callback;
-  } catch (error) {
-    
-  }
+  const response = await post({endpoint: uri,body:data});
+  return response;
 }
 export async function updateData(data){
-  try {
-    const response = await sys_put({endpoint: uri,body:data});
-    return response.callback;
-  } catch (error) {
-    
-  }
+  const response = await put({endpoint: uri,body:data});
+  return response;
 }
 export async function deleteData(id){
-  try {
-    const response = await sys_del({endpoint: uri+id});
-    return response.callback;
-  } catch (error) {
-    
-  }
+  const response = await del({endpoint: uri+id});
+  return response;
 }
 
   `;

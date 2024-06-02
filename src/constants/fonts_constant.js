@@ -1,6 +1,6 @@
 // Font family constant
-export const FONT_FAMILY_CONSTANT = {
-  PRIMARY: {
+export const fontFamilyConstant = {
+  primary: {
     200: 'Nunito-ExtraLight',
     300: 'Nunito-Light',
     400: 'Nunito-Regular',
@@ -13,8 +13,8 @@ export const FONT_FAMILY_CONSTANT = {
 };
 
 // Font size constant
-export const FONT_SIZE_CONSTANT = {
-  BIG: 16,
-  MEDIUM: 14,
-  SMALL: 12,
+export const fontSizeConstant = {
+  big: 16,
+  medium: 14,
+  small: 12,
 };

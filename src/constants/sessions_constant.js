@@ -1,4 +1,4 @@
-export const SESSION_CONSTANT = {
-  ACCESS_TOKEN: 'ACCESS_TOKEN',
-  REFRESH_TOKEN: 'REFRESH_TOKEN',
+export const sessionConstant = {
+  accessToken: 'ACCESS_TOKEN',
+  refreshToken: 'REFRESH_TOKEN',
 };
