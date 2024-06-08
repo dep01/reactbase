@@ -11,7 +11,8 @@ const addButtonPayload = {
   size: 24,
   style: {},
 };
-export const AddButton = (payload = addButtonPayload) => {
+export const AddButton = (params = addButtonPayload) => {
+  const payload = {...addButtonPayload,...params}
   const navigation = useNavigation();
   return (
     <TouchableOpacity

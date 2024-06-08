@@ -14,15 +14,16 @@ const customInputPayload = {
   inputStyle: {},
   labelStyle: {},
   containerText: {},
-  onChangeText,
-  secureTextEntry,
-  keyboardType,
+  onChangeText:()=>null,
+  secureTextEntry:false,
+  keyboardType:'default',
   placeholder: '',
   value: '',
   maxLength: 30,
   numberOfLines: 1,
 };
-export const CustomInput = (payload = customInputPayload) => {
+export const CustomInput = (params = customInputPayload) => {
+  const payload = {...customInputPayload,...params}
   return (
     <View style={[styles.container, payload.containerStyle]}>
       {payload.label != '' ? (

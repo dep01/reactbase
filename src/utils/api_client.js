@@ -1,8 +1,8 @@
 import {getSession, getToken} from 'rbase-utils/session';
 import {SESSION_CONSTANT} from 'rbase-constants/sessions_constant';
-import {CONFIG_ENV} from '../config';
+import {config} from '../config';
 
-const API_URL = CONFIG_ENV.API_URL;
+const apiUrl = config.apiUrl;
 const responseModel = {
   code: 503,
   success: false,
@@ -48,9 +48,9 @@ const bodyParser = (data, response = new Response()) => {
 
   // assign response
   resp.code = response.status;
-  resp.success = data.success;
-  resp.message = data.message;
-  resp.data = data.data;
+  resp.success = true;
+  resp.message = data?.message??"success";
+  resp.data = data;
 
   return resp;
 };
@@ -63,7 +63,7 @@ export const get = async ({auth = false, endpoint = ''}) => {
     const header = await initHeader({auth: auth});
 
     // hit endpoint get
-    const response = await fetch(API_URL + endpoint, {
+    const response = await fetch(apiUrl + endpoint, {
       method: 'GET',
       headers: header,
     });
@@ -94,7 +94,7 @@ export const post = async ({auth = false, endpoint = '', body = {}}) => {
     const header = await initHeader({auth: auth});
 
     // hit endpoint post
-    const response = await fetch(API_URL + endpoint, {
+    const response = await fetch(apiUrl + endpoint, {
       method: 'POST',
       headers: header,
       body: JSON.stringify(body),
@@ -126,7 +126,7 @@ export const del = async ({auth = false, endpoint = ''}) => {
     const header = await initHeader({auth: auth});
 
     // hit endpoint delete
-    const response = await fetch(API_URL + endpoint, {
+    const response = await fetch(apiUrl + endpoint, {
       method: 'DELETE',
       headers: header,
     });
@@ -162,7 +162,7 @@ export const put = async ({
     const header = await initHeader({auth: auth, isRefresh});
 
     // hit endpoint put
-    const response = await fetch(API_URL + endpoint, {
+    const response = await fetch(apiUrl + endpoint, {
       method: 'PUT',
       headers: header,
       body: JSON.stringify(body),

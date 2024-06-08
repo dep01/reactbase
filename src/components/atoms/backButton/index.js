@@ -1,18 +1,19 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {sys_colors} from 'rbase-helpers/constants';
+import {iconColorsConstant} from 'rbase-constants/colors_constant';
 import {useNavigation} from '@react-navigation/native';
 
 const backButtonPayload = {
   onPress: null,
   iconName: 'west',
-  color: sys_colors.text.white,
+  color: iconColorsConstant.primary,
   size: 24,
   align: 'flex-start',
   style: {},
 };
-export const BackButton = (payload = backButtonPayload) => {
+export const BackButton = (params = backButtonPayload) => {
+  const payload = {...backButtonPayload, ...params};
   const navigation = useNavigation();
   return (
     <TouchableOpacity

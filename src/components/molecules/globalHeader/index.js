@@ -7,7 +7,7 @@ import {
 import {fontFamilyConstant} from 'rbase-constants/fonts_constant';
 
 const globalHeaderPayload = {
-  children,
+  children:null,
   title: '',
   right: null,
   left: null,
@@ -18,8 +18,9 @@ const globalHeaderPayload = {
   style: {},
   type: 'primary',
 };
-export const GlobalHeader = (payload = globalHeaderPayload) => {
-  return type == 'primary' ? (
+export const GlobalHeader = (params = globalHeaderPayload) => {
+  const payload = {...globalHeaderPayload, ...params};
+  return payload.type == 'primary' ? (
     <View style={[styles.container, {height: payload.height}, payload.style]}>
       {payload.left != null || payload.right != null ? (
         <View style={styles.left}>{payload.left}</View>

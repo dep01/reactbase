@@ -1,26 +1,14 @@
 import React from 'react';
 import {View, ActivityIndicator, Text, StyleSheet} from 'react-native';
-import {create} from 'zustand';
-
-const loadingStore = create(set => ({
-  loading: false,
-  setLoading: loading => set({loading}),
-}));
-
 const LoadingOverlay = () => {
-  const loadingData = loadingStore(state => state.loading);
-  if (loadingData) {
-    return ( 
-      <View style={styles.loading}>
-        <View style={styles.container}>
-          <ActivityIndicator size="large" color={'#2E2D98'} />
-          <Text style={styles.textLoading}>Loading ...</Text>
-        </View>
+  return (
+    <View style={styles.loading}>
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color={'#2E2D98'} />
+        <Text style={styles.textLoading}>Loading ...</Text>
       </View>
-    );
-  } else {
-    return <View />;
-  }
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -49,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {LoadingOverlay, loadingStore};
+export {LoadingOverlay};

@@ -10,7 +10,8 @@ const dividerPayload = {
   lineHeight: 0.5,
 };
 
-export const Divider = (payload = dividerPayload) => {
+export const Divider = (params = dividerPayload) => {
+  const payload = {...dividerPayload, ...params};
   return (
     <View
       style={{

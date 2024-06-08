@@ -1,4 +1,4 @@
-import {askPermission} from 'rbase-helpers/permission';
+import {askPermission} from 'rbase-utils/permission';
 import {routesName} from 'rbase-routes';
 import {create} from 'zustand';
 

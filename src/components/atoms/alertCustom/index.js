@@ -13,10 +13,10 @@ import {textStyleConstant} from 'rbase-constants/styles_constant';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
-} from 'rbase-helpers/responsive';
+} from 'rbase-utils/responsive';
 
 const alertCustomPayload = {
-  onRequestClose,
+  onRequestClose:null,
   visible: false,
   onOk: null,
   onCancel: null,
@@ -29,7 +29,8 @@ const alertCustomPayload = {
   height: heightPercentageToDP(30),
   align: 'left',
 };
-export const AlertCustom = (payload = alertCustomPayload) => {
+export const AlertCustom = (params = alertCustomPayload) => {
+  const payload = {...alertCustomPayload,...params}
   return (
     <Modal
       transparent={true}
@@ -42,10 +43,10 @@ export const AlertCustom = (payload = alertCustomPayload) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={[styles.containerModal, {height: height + 30}]}>
+        <View style={[styles.containerModal, {height: payload.height + 30}]}>
           <View style={styles.containerTitle}>
             <Text style={textStyleConstant.headerMediumPrimary}>
-              {title.toUpperCase()}
+              {payload.title.toUpperCase()}
             </Text>
           </View>
 
@@ -53,7 +54,7 @@ export const AlertCustom = (payload = alertCustomPayload) => {
             {payload.icon == '' ? null : (
               <Icon
                 name={payload.icon}
-                color={iconColor}
+                color={payload.iconColor}
                 size={42}
                 style={{marginBottom: 10}}
               />

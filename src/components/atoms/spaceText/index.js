@@ -10,7 +10,8 @@ const spaceTextPayload = {
   containerStyle: {},
 };
 
-export const SpaceText = (payload = spaceTextPayload) => {
+export const SpaceText = (params = spaceTextPayload) => {
+  const payload = {...spaceTextPayload, ...params};
   return (
     <View style={[styles.container, payload.containerStyle]}>
       <Text style={[styles.defaultLeft, payload.leftStyle]}>

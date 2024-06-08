@@ -5814,7 +5814,12 @@ range-parser@~1.2.1:
   resolved "file:src/constants"
 
 "rbase-models@file:src/models":
+  version "1.0.0"
   resolved "file:src/models"
+
+"rbase-providers@file:src/providers":
+  version "1.0.0"
+  resolved "file:src/providers"
 
 "rbase-routes@file:src/routes":
   version "1.0.0"

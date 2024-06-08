@@ -10,7 +10,8 @@ const loadingIndicatorPayload = {
   forInfinityScroll: false,
 };
 
-export const LoadingIndicator = (payload = loadingIndicatorPayload) => {
+export const LoadingIndicator = (params = loadingIndicatorPayload) => {
+  const payload ={...loadingIndicatorPayload,...params}
   return payload.forInfinityScroll ? (
     <View style={{width: '100%', height: 50}}>
       <View style={styles.loading}>

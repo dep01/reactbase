@@ -198,8 +198,9 @@ const modelOfData${named} = {${listKey.map(val => {
 };
 function listOf${named}(data = []) {
   let listData = [modelOfData${named}];
+  listData = [];
   if (data == null || data ==[]){
-    return []
+    return listData;
   }
   for (let val of data) {
     let object = {${listKey.map(val => {
@@ -319,8 +320,9 @@ const modelOfData${name} = {${listKey.map(val => {
     childOne += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
+  listData = [];
   if (data == null || data ==[]){
-    return []
+    return listData;
   }
   for(let val of data) {
     let object = {${listKey.map(val => {
@@ -424,8 +426,9 @@ const modelOfData${name} = {${listKey.map(val => {
     childTwo += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
+  listData = [];
   if (data == null || data ==[]){
-    return []
+    return listData;
   }
   for(let val of data){
     let object = {${listKey.map(val => {
@@ -528,8 +531,9 @@ const modelOfData${name} = {${listKey.map(val => {
     childThree += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
+  listData = [];
   if (data == null || data ==[]){
-    return []
+    return listData;
   }
   for(let val of data) {
     let object = {${listKey.map(val => {
@@ -604,8 +608,9 @@ const modelOfData${name} = {${listKey.map(val => {
     childFour += `
 function listOf${name}(data = []) {
   let listData = [modelOfData${name}];
+  listData = [];
   if (data == null || data ==[]){
-    return []
+    return listData;
   }
   for (let val of data){
     let object = {${listKey.map(val => {

@@ -11,7 +11,8 @@ const paragraphPayload ={
   numberOfLines : null,
 }
 
-export const Paragraph = (payload = paragraphPayload) => {
+export const Paragraph = (params = paragraphPayload) => {
+  const payload = {...paragraphPayload,...params}
   return (
     <View style={[{width: '100%'}, payload.style]}>
       <Text style={[styles.title, payload.titleStyle]} ellipsizeMode="tail">

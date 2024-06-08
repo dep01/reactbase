@@ -13,9 +13,9 @@ export const setter = {
 };
 
 export const action = {
-  initialize: navigation => {
+  initialize: (navigation) => {
     setTimeout(() => {
-      navigation.replace(routesName.LOGIN);
+      navigation.replace(routesName.login);
     }, 2000);
   },
   cleanUp: () => {

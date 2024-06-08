@@ -19,8 +19,9 @@ const modelOfDatausersModel = {
 };
 function listOfusersModel(data = []) {
   let listData = [modelOfDatausersModel];
+  listData = [];
   if (data == null || data == []) {
-    return [];
+    return listData;
   }
   for (let val of data) {
     let object = {

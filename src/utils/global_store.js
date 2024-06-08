@@ -5,7 +5,7 @@ import {create} from 'zustand';
 export const globalBaseState = props => {
   return {
     toastRef: props?.toastRef ?? null,
-    isLoading: props?.isLoading ?? true,
+    isLoading: props?.isLoading ?? false,
     modalMessage: props?.modalMessage ?? '',
     modalTitle: props?.modalTitle ?? '',
     modalIcon: props?.modalIcon ?? '',
@@ -159,7 +159,6 @@ export function dateTranform({
 
   // check params today available
   if (checkIsToDay) {
-
     // if date is equal today return just time
     if (
       Moment(current).format('yyyy-MM-DD') ==
@@ -241,4 +240,14 @@ export function monthNameTransform(val, type = 'long', lang = 'en') {
   } else {
     return shortMonth[val];
   }
+}
+
+// set loading overlay true
+export function setLoadingTrue(){
+  setterGlobalState.isLoading(true)
+}
+
+// set loading overlay false
+export function setLoadingFalse(){
+  setterGlobalState.isLoading(false)
 }

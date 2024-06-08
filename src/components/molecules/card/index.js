@@ -6,21 +6,22 @@ import {backgroundColorsConstant} from 'rbase-constants/colors_constant';
 const {width, height} = Dimensions.get('window');
 
 const cardPayload = {
-  children,
+  children:null,
   height: height * 0.1,
   borderRadius: 0,
   padding: 0,
   backgroundColor: backgroundColorsConstant.primary,
   title: '',
   uppercase: false,
-  width: width * 0.1,
+  width: width ,
   marginBottom: 10,
   marginTop: 0,
   marginLeft: 0,
   marginRight: 0,
 };
 
-export const Card = (payload = cardPayload) => {
+export const Card = (params = cardPayload) => {
+  const payload = {...cardPayload,...params}
   return (
     <View
       style={{

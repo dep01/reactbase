@@ -26,7 +26,7 @@ export default ({navigation}) => {
     <View style={baseStyleConstant.scaffold}>
       <View style={baseStyleConstant.containerCenterScreen}>
         <Card
-          Width="90%"
+          width="90%"
           padding={12}
           title="Login"
           borderRadius={15}
@@ -79,7 +79,6 @@ export default ({navigation}) => {
 const styles = StyleSheet.create({
   textLabel: {
     ...textStyleConstant.headerSmallPrimary,
-    color: sys_colors.text.black,
   },
   textDaftar: {
     ...textStyleConstant.headerSmallPrimary,

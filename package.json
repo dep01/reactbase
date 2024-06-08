@@ -23,6 +23,7 @@
     "rbase-components": "file:src/components",
     "rbase-constants": "file:src/constants",
     "rbase-models": "file:src/models",
+    "rbase-providers": "file:src/providers",
     "rbase-routes": "file:src/routes",
     "rbase-utils": "file:src/utils",
     "react": "18.2.0",

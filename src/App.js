@@ -70,7 +70,7 @@ export default () => {
         okText="OK"
         cancelText="CANCEL"
       />
-      <LoadingOverlay />
+      {globalState.isLoading ? <LoadingOverlay /> : null}
     </SafeAreaProvider>
   );
 };
