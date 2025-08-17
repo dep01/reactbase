@@ -1,10 +1,11 @@
 import {getSession, getToken} from 'rbase-utils/session';
 import {SESSION_CONSTANT} from 'rbase-constants/sessions_constant';
 import {config} from '../config';
+import { errorCode } from 'rbase-constants/error_constant';
 
 const apiUrl = config.apiUrl;
-const responseModel = {
-  code: 503,
+export const responseModel = {
+  code: '503',
   success: false,
   message: 'Network request failed',
   data: null,
@@ -39,17 +40,16 @@ const bodyParser = (data, response = new Response()) => {
   // check response status
   if (!response.ok) {
     // if having error return
-    resp.code = response.status;
+    resp.code = data.code;
     resp.success = false;
-    resp.message = data.message;
     resp.data = null;
-    return resp;
+    return errorMapper({resp: resp});
   }
 
   // assign response
-  resp.code = response.status;
+  resp.code = data?.code ?? 'success';
   resp.success = true;
-  resp.message = data?.message??"success";
+  resp.message = data?.message ?? 'success';
   resp.data = data;
 
   return resp;
@@ -184,4 +184,15 @@ export const put = async ({
 
     return respError;
   }
+};
+
+const errorMapper = ({resp = responseModel}) => {
+  var message = errorCode[resp.code][config.locale];
+  if (message != '') {
+    resp.message = message;
+  } else {
+    resp.message = errorCode["503"][config.locale];
+    resp.code = '503';
+  }
+  return resp;
 };
